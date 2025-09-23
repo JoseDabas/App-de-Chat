@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Usa Material 3 o AppCompat; las dos valen. -->
-    <style name="Theme.AppChat" parent="Theme.Material3.Light.NoActionBar" />
-</resources>
