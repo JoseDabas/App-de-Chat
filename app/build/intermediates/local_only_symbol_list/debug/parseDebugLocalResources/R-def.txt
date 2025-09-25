@@ -9,6 +9,8 @@ color teal_700
 color white
 id action_chatList_to_chat
 id action_login_to_chatList
+id action_login_to_register
+id action_register_to_login
 id btnLogin
 id btnRegister
 id btnSend
@@ -20,11 +22,13 @@ id etMessage
 id etPass
 id etPassReg
 id loginFragment
+id messageBar
 id nav_graph
 id nav_host_fragment
+id registerFragment
 id rvMessages
-id tvIn
-id tvOut
+id tvTextIn
+id tvTextOut
 layout activity_main
 layout fragment_chat
 layout fragment_login

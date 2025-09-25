@@ -3166,11 +3166,13 @@ id action_context_bar
 id action_divider
 id action_image
 id action_login_to_chatList
+id action_login_to_register
 id action_menu_divider
 id action_menu_presenter
 id action_mode_bar
 id action_mode_bar_stub
 id action_mode_close_button
+id action_register_to_login
 id action_text
 id actions
 id activity_chooser_view_content
@@ -3371,6 +3373,7 @@ id material_timepicker_view
 id material_value_index
 id matrix
 id message
+id messageBar
 id middle
 id mini
 id month_grid
@@ -3461,6 +3464,7 @@ id progress_horizontal
 id radio
 id ratio
 id rectangles
+id registerFragment
 id report_drawn
 id reverseSawtooth
 id right
@@ -3577,8 +3581,8 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
-id tvIn
-id tvOut
+id tvTextIn
+id tvTextOut
 id unchecked
 id uniform
 id unlabeled
@@ -4634,7 +4638,6 @@ style Theme_MaterialComponents_Light_NoActionBar
 style Theme_MaterialComponents_Light_NoActionBar_Bridge
 style Theme_MaterialComponents_NoActionBar
 style Theme_MaterialComponents_NoActionBar_Bridge
-style Theme_PlayCore_Transparent
 style ThemeOverlay_AppCompat
 style ThemeOverlay_AppCompat_ActionBar
 style ThemeOverlay_AppCompat_Dark
@@ -5297,4 +5300,5 @@ styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewPager2 android_orientation
 styleable ViewStubCompat android_id android_layout android_inflatedId
+xml ga_ad_services_config
 xml image_share_filepaths
