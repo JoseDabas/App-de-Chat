@@ -3119,6 +3119,7 @@ id SHOW_PROGRESS
 id SYM
 id TOP_END
 id TOP_START
+id _spacer
 id accelerate
 id accessibility_action_clickable_span
 id accessibility_custom_action_0
@@ -3167,6 +3168,7 @@ id action_divider
 id action_image
 id action_login_to_chatList
 id action_login_to_register
+id action_logout
 id action_menu_divider
 id action_menu_presenter
 id action_mode_bar
@@ -3205,6 +3207,7 @@ id browser_actions_menu_item_icon
 id browser_actions_menu_item_text
 id browser_actions_menu_items
 id browser_actions_menu_view
+id btnGoToRegister
 id btnLogin
 id btnRegister
 id btnSend
@@ -3474,6 +3477,7 @@ id right_side
 id rounded
 id row_index_key
 id rtl
+id rvChats
 id rvMessages
 id save_non_transition_alpha
 id save_overlay_view
@@ -3567,7 +3571,9 @@ id title
 id titleDividerNoCustom
 id title_template
 id toggle
+id toolbar
 id top
+id topGuideline
 id topPanel
 id touch_outside
 id transitionToEnd
@@ -3581,8 +3587,11 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
+id tvEmpty
+id tvSubtitle
 id tvTextIn
 id tvTextOut
+id tvTitle
 id unchecked
 id uniform
 id unlabeled
@@ -3737,10 +3746,12 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout fragment_chat
+layout fragment_chat_list
 layout fragment_login
 layout fragment_register
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
+layout item_chat
 layout item_message_in
 layout item_message_out
 layout m3_alert_dialog
@@ -3804,6 +3815,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+menu menu_chat_list
 navigation nav_graph
 plurals mtrl_badge_content_description
 raw firebase_common_keep
@@ -3876,6 +3888,7 @@ string common_signin_button_text
 string common_signin_button_text_long
 string copy_toast_msg
 string dest_title
+string empty_chats
 string error_a11y_label
 string error_icon_content_description
 string exposed_dropdown_menu_content_description
@@ -4008,6 +4021,7 @@ string searchview_navigation_content_description
 string side_sheet_accessibility_pane_title
 string side_sheet_behavior
 string status_bar_notification_info_overflow
+string title_chats
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

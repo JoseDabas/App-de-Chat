@@ -9,6 +9,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Guideline;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.app.chat.R;
@@ -21,6 +22,12 @@ public final class FragmentLoginBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
+  public final View Spacer;
+
+  @NonNull
+  public final Button btnGoToRegister;
+
+  @NonNull
   public final Button btnLogin;
 
   @NonNull
@@ -29,12 +36,19 @@ public final class FragmentLoginBinding implements ViewBinding {
   @NonNull
   public final EditText etPass;
 
-  private FragmentLoginBinding(@NonNull ConstraintLayout rootView, @NonNull Button btnLogin,
-      @NonNull EditText etEmail, @NonNull EditText etPass) {
+  @NonNull
+  public final Guideline topGuideline;
+
+  private FragmentLoginBinding(@NonNull ConstraintLayout rootView, @NonNull View Spacer,
+      @NonNull Button btnGoToRegister, @NonNull Button btnLogin, @NonNull EditText etEmail,
+      @NonNull EditText etPass, @NonNull Guideline topGuideline) {
     this.rootView = rootView;
+    this.Spacer = Spacer;
+    this.btnGoToRegister = btnGoToRegister;
     this.btnLogin = btnLogin;
     this.etEmail = etEmail;
     this.etPass = etPass;
+    this.topGuideline = topGuideline;
   }
 
   @Override
@@ -64,6 +78,18 @@ public final class FragmentLoginBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id._spacer;
+      View Spacer = ViewBindings.findChildViewById(rootView, id);
+      if (Spacer == null) {
+        break missingId;
+      }
+
+      id = R.id.btnGoToRegister;
+      Button btnGoToRegister = ViewBindings.findChildViewById(rootView, id);
+      if (btnGoToRegister == null) {
+        break missingId;
+      }
+
       id = R.id.btnLogin;
       Button btnLogin = ViewBindings.findChildViewById(rootView, id);
       if (btnLogin == null) {
@@ -82,7 +108,14 @@ public final class FragmentLoginBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentLoginBinding((ConstraintLayout) rootView, btnLogin, etEmail, etPass);
+      id = R.id.topGuideline;
+      Guideline topGuideline = ViewBindings.findChildViewById(rootView, id);
+      if (topGuideline == null) {
+        break missingId;
+      }
+
+      return new FragmentLoginBinding((ConstraintLayout) rootView, Spacer, btnGoToRegister,
+          btnLogin, etEmail, etPass, topGuideline);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

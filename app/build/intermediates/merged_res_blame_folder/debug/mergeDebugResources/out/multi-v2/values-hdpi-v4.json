@@ -4,7 +4,7 @@
             "outputFile": "com.app.chat.app-mergeDebugResources-58:/values-hdpi-v4/values-hdpi-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.9\\transforms\\409811267a69383de69e520c35727e24\\transformed\\appcompat-1.7.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.13\\transforms\\0c3aa0e6166dfc98c65c1dadd99ee16c\\transformed\\appcompat-1.7.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

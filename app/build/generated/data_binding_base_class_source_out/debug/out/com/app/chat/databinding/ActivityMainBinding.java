@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentContainerView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewbinding.ViewBinding;
 import com.app.chat.R;
 import java.lang.NullPointerException;
@@ -14,20 +14,15 @@ import java.lang.Override;
 
 public final class ActivityMainBinding implements ViewBinding {
   @NonNull
-  private final FragmentContainerView rootView;
+  private final CoordinatorLayout rootView;
 
-  @NonNull
-  public final FragmentContainerView navHostFragment;
-
-  private ActivityMainBinding(@NonNull FragmentContainerView rootView,
-      @NonNull FragmentContainerView navHostFragment) {
+  private ActivityMainBinding(@NonNull CoordinatorLayout rootView) {
     this.rootView = rootView;
-    this.navHostFragment = navHostFragment;
   }
 
   @Override
   @NonNull
-  public FragmentContainerView getRoot() {
+  public CoordinatorLayout getRoot() {
     return rootView;
   }
 
@@ -52,8 +47,6 @@ public final class ActivityMainBinding implements ViewBinding {
       throw new NullPointerException("rootView");
     }
 
-    FragmentContainerView navHostFragment = (FragmentContainerView) rootView;
-
-    return new ActivityMainBinding((FragmentContainerView) rootView, navHostFragment);
+    return new ActivityMainBinding((CoordinatorLayout) rootView);
   }
 }

@@ -8,11 +8,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="white">#FFFFFFFF</color>
     <string name="app_name">App Chat</string>
+    <string name="empty_chats">No tienes chats aún</string>
     <string name="gcm_defaultSenderId" translatable="false">8855677074</string>
     <string name="google_api_key" translatable="false">AIzaSyDazt5dfJJNBO_TnSwk-rdyiS0Ha7sSzMY</string>
     <string name="google_app_id" translatable="false">1:8855677074:android:fbf155eff9787504fd1e4b</string>
     <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDazt5dfJJNBO_TnSwk-rdyiS0Ha7sSzMY</string>
     <string name="google_storage_bucket" translatable="false">chat-basico-6147f.firebasestorage.app</string>
     <string name="project_id" translatable="false">chat-basico-6147f</string>
+    <string name="title_chats">Chats</string>
     <style name="Theme.AppChat" parent="Theme.Material3.Light.NoActionBar"/>
 </resources>
