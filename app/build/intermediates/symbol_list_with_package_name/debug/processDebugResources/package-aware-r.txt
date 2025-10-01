@@ -2059,6 +2059,7 @@ color mtrl_textinput_focused_box_stroke_color
 color mtrl_textinput_hovered_box_stroke_color
 color notification_action_color_filter
 color notification_icon_bg_color
+color primary_color
 color primary_dark_material_dark
 color primary_dark_material_light
 color primary_material_dark
@@ -2086,6 +2087,7 @@ color teal_200
 color teal_700
 color tooltip_background_dark
 color tooltip_background_light
+color turquoise_blue
 color white
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
@@ -2982,6 +2984,11 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+drawable button_primary_background
+drawable button_secondary_background
+drawable button_turquoise_background
+drawable button_turquoise_outline
+drawable chat_icon_background
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
 drawable common_google_signin_btn_icon_dark_focused
@@ -3102,6 +3109,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable talknow
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
@@ -3119,7 +3127,6 @@ id SHOW_PROGRESS
 id SYM
 id TOP_END
 id TOP_START
-id _spacer
 id accelerate
 id accessibility_action_clickable_span
 id accessibility_custom_action_0
@@ -3176,6 +3183,8 @@ id action_mode_bar_stub
 id action_mode_close_button
 id action_register_to_login
 id action_text
+id action_welcome_to_login
+id action_welcome_to_register
 id actions
 id activity_chooser_view_content
 id add
@@ -3207,6 +3216,7 @@ id browser_actions_menu_item_icon
 id browser_actions_menu_item_text
 id browser_actions_menu_items
 id browser_actions_menu_view
+id btnBackReg
 id btnGoToRegister
 id btnLogin
 id btnRegister
@@ -3349,6 +3359,8 @@ id listMode
 id list_item
 id locale
 id loginFragment
+id logo
+id logoContainer
 id ltr
 id m3_side_sheet
 id marquee
@@ -3573,7 +3585,6 @@ id title_template
 id toggle
 id toolbar
 id top
-id topGuideline
 id topPanel
 id touch_outside
 id transitionToEnd
@@ -3604,6 +3615,8 @@ id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
+id welcomeFragment
+id welcomeText
 id wide
 id withText
 id with_icon
@@ -3749,6 +3762,7 @@ layout fragment_chat
 layout fragment_chat_list
 layout fragment_login
 layout fragment_register
+layout fragment_welcome
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout item_chat

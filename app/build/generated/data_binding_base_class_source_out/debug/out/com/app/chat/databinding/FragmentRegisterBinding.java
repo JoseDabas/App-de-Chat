@@ -6,9 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.app.chat.R;
@@ -18,7 +19,10 @@ import java.lang.String;
 
 public final class FragmentRegisterBinding implements ViewBinding {
   @NonNull
-  private final ConstraintLayout rootView;
+  private final LinearLayout rootView;
+
+  @NonNull
+  public final Button btnBackReg;
 
   @NonNull
   public final Button btnRegister;
@@ -29,17 +33,23 @@ public final class FragmentRegisterBinding implements ViewBinding {
   @NonNull
   public final EditText etPassReg;
 
-  private FragmentRegisterBinding(@NonNull ConstraintLayout rootView, @NonNull Button btnRegister,
-      @NonNull EditText etEmailReg, @NonNull EditText etPassReg) {
+  @NonNull
+  public final ImageView logo;
+
+  private FragmentRegisterBinding(@NonNull LinearLayout rootView, @NonNull Button btnBackReg,
+      @NonNull Button btnRegister, @NonNull EditText etEmailReg, @NonNull EditText etPassReg,
+      @NonNull ImageView logo) {
     this.rootView = rootView;
+    this.btnBackReg = btnBackReg;
     this.btnRegister = btnRegister;
     this.etEmailReg = etEmailReg;
     this.etPassReg = etPassReg;
+    this.logo = logo;
   }
 
   @Override
   @NonNull
-  public ConstraintLayout getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -64,6 +74,12 @@ public final class FragmentRegisterBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnBackReg;
+      Button btnBackReg = ViewBindings.findChildViewById(rootView, id);
+      if (btnBackReg == null) {
+        break missingId;
+      }
+
       id = R.id.btnRegister;
       Button btnRegister = ViewBindings.findChildViewById(rootView, id);
       if (btnRegister == null) {
@@ -82,8 +98,14 @@ public final class FragmentRegisterBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentRegisterBinding((ConstraintLayout) rootView, btnRegister, etEmailReg,
-          etPassReg);
+      id = R.id.logo;
+      ImageView logo = ViewBindings.findChildViewById(rootView, id);
+      if (logo == null) {
+        break missingId;
+      }
+
+      return new FragmentRegisterBinding((LinearLayout) rootView, btnBackReg, btnRegister,
+          etEmailReg, etPassReg, logo);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
