@@ -9,6 +9,8 @@ color teal_200
 color teal_700
 color turquoise_blue
 color white
+drawable bg_bubble_mine
+drawable bg_bubble_other
 drawable bottom_nav_background
 drawable button_primary_background
 drawable button_secondary_background
@@ -17,6 +19,7 @@ drawable button_turquoise_outline
 drawable chat_icon_background
 drawable context_menu_background
 drawable ic_add
+drawable ic_arrow_back_24
 drawable ic_chat
 drawable ic_notifications
 drawable ic_person
@@ -27,6 +30,8 @@ id action_chatList_to_chat
 id action_login_to_chatList
 id action_login_to_register
 id action_logout
+id action_new_chat
+id action_register_to_chatList
 id action_register_to_login
 id action_welcome_to_login
 id action_welcome_to_register
@@ -57,17 +62,17 @@ id menu_chat
 id menu_contact
 id menu_group
 id menu_team
-id messageBar
 id nav_graph
 id nav_host_fragment
 id registerFragment
 id rvChats
 id rvMessages
 id searchContainer
+id toolbarChat
 id tvEmpty
+id tvMsgMine
+id tvMsgOther
 id tvSubtitle
-id tvTextIn
-id tvTextOut
 id tvTitle
 id welcomeFragment
 id welcomeText
@@ -78,8 +83,8 @@ layout fragment_login
 layout fragment_register
 layout fragment_welcome
 layout item_chat
-layout item_message_in
-layout item_message_out
+layout item_message_mine
+layout item_message_other
 menu menu_chat_list
 navigation nav_graph
 string app_name

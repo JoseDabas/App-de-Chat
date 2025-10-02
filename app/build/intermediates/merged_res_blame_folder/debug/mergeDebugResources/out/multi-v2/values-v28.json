@@ -4,7 +4,7 @@
             "outputFile": "com.app.chat.app-mergeDebugResources-58:/values-v28/values-v28.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\josea\\.gradle\\caches\\8.13\\transforms\\0c3aa0e6166dfc98c65c1dadd99ee16c\\transformed\\appcompat-1.7.0\\res\\values-v28\\values-v28.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.13\\transforms\\0c3aa0e6166dfc98c65c1dadd99ee16c\\transformed\\appcompat-1.7.0\\res\\values-v28\\values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,8",
                         "startColumns": "4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\josea\\.gradle\\caches\\8.13\\transforms\\e7bc6f370c790f811b7970ce07f63002\\transformed\\material-1.12.0\\res\\values-v28\\values-v28.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.13\\transforms\\e7bc6f370c790f811b7970ce07f63002\\transformed\\material-1.12.0\\res\\values-v28\\values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",

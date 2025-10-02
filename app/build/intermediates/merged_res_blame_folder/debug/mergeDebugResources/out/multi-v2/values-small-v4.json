@@ -4,7 +4,7 @@
             "outputFile": "com.app.chat.app-mergeDebugResources-58:/values-small-v4/values-small-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\josea\\.gradle\\caches\\8.13\\transforms\\e7bc6f370c790f811b7970ce07f63002\\transformed\\material-1.12.0\\res\\values-small-v4\\values-small-v4.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.13\\transforms\\e7bc6f370c790f811b7970ce07f63002\\transformed\\material-1.12.0\\res\\values-small-v4\\values-small-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

@@ -3,6 +3,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:id="@+id/nav_graph"
 app:startDestination="@id/welcomeFragment" >
+
+<!-- WELCOME -->
 <fragment
     android:id="@+id/welcomeFragment"
     android:name="com.app.chat.feature.auth.ui.WelcomeFragment"
@@ -16,24 +18,47 @@ app:startDestination="@id/welcomeFragment" >
         app:destination="@id/registerFragment" />
 
 </fragment>
+
+<!-- LOGIN -->
 <fragment
     android:id="@+id/loginFragment"
     android:name="com.app.chat.feature.auth.ui.LoginFragment"
     android:label="Login" >
 
+    <!-- Login success -> Chats. Clears Welcome so back doesn't return to auth -->
     <action
         android:id="@+id/action_login_to_chatList"
-        app:destination="@id/chatListFragment" />
+        app:destination="@id/chatListFragment"
+        app:popUpTo="@id/welcomeFragment"
+        app:popUpToInclusive="true" />
+    <!--
+             Button "Crear cuenta" in Login -> Register.
+             Removes Login from stack so back on Register = Welcome
+    -->
     <action
         android:id="@+id/action_login_to_register"
-        app:destination="@id/registerFragment" />
+        app:destination="@id/registerFragment"
+        app:popUpTo="@id/loginFragment"
+        app:popUpToInclusive="true" />
 
 </fragment>
+
+<!-- REGISTER -->
 <fragment
     android:id="@+id/registerFragment"
     android:name="com.app.chat.feature.auth.ui.RegisterFragment"
     android:label="Register" >
 
+    <!-- Register success -> Chats. Clears Welcome -->
+    <action
+        android:id="@+id/action_register_to_chatList"
+        app:destination="@id/chatListFragment"
+        app:popUpTo="@id/welcomeFragment"
+        app:popUpToInclusive="true" />
+    <!--
+             Button "Ya tengo cuenta" in Register -> Login.
+             Removes Register from stack so back on Login = Welcome
+    -->
     <action
         android:id="@+id/action_register_to_login"
         app:destination="@id/loginFragment"
@@ -41,6 +66,8 @@ app:startDestination="@id/welcomeFragment" >
         app:popUpToInclusive="true" />
 
 </fragment>
+
+<!-- CHAT LIST -->
 <fragment
     android:id="@+id/chatListFragment"
     android:name="com.app.chat.feature.chatlist.ui.ChatListFragment"
@@ -51,6 +78,8 @@ app:startDestination="@id/welcomeFragment" >
         app:destination="@id/chatFragment" />
 
 </fragment>
+
+<!-- CHAT -->
 <fragment
     android:id="@+id/chatFragment"
     android:name="com.app.chat.feature.chat.ui.ChatFragment"

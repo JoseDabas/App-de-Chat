@@ -1,86 +1,100 @@
 package com.app.chat.feature.auth.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.app.chat.R
-import com.app.chat.core.session.SessionPrefs
-import com.app.chat.databinding.FragmentLoginBinding
-import com.app.chat.feature.auth.data.AuthRepository
-import com.app.chat.core.util.Result
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Locale
 
-class LoginFragment : Fragment(R.layout.fragment_login) {
+class LoginFragment : Fragment() {
 
-    private val authRepo = AuthRepository()
+    private val auth by lazy { FirebaseAuth.getInstance() }
+    private val db by lazy { FirebaseFirestore.getInstance() }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_login, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentLoginBinding.bind(view)
 
-        binding.btnLogin.setOnClickListener {
-            val email = binding.etEmail.text.toString().trim()
-            val pass = binding.etPass.text.toString()
+        val etEmail = view.findViewById<EditText>(R.id.etEmail)
+        val etPass = view.findViewById<EditText>(R.id.etPass)
+        val btnLogin = view.findViewById<Button>(R.id.btnLogin)
+        val btnGoToRegister = view.findViewById<Button>(R.id.btnGoToRegister)
 
-            // Validación de campos vacíos
-            if (email.isEmpty()) {
-                Toast.makeText(requireContext(), "Por favor ingresa tu email", Toast.LENGTH_SHORT).show()
+        btnLogin.setOnClickListener {
+            val email = etEmail.text?.toString()?.trim().orEmpty()
+            val pass = etPass.text?.toString()?.trim().orEmpty()
+            if (email.isEmpty() || pass.isEmpty()) {
+                Toast.makeText(requireContext(), "Completa email y contraseña", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (pass.isEmpty()) {
-                Toast.makeText(requireContext(), "Por favor ingresa tu contraseña", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Validación de formato de email
-            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(requireContext(), "Por favor ingresa un email válido", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                when (val res = authRepo.login(email, pass)) {
-                    is Result.Success -> {
-                        Toast.makeText(requireContext(), "¡Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show()
-                        
-                        // Guardar timestamp para sesión válida por 30 días
-                        SessionPrefs.markLoggedNow(requireContext())
-
-                        // Ir a la lista de chats y limpiar el backstack
-                        findNavController().navigate(
-                            R.id.chatListFragment,
-                            null,
-                            NavOptions.Builder()
-                                .setPopUpTo(R.id.nav_graph, true)
-                                .build()
+            btnLogin.isEnabled = false
+            auth.signInWithEmailAndPassword(email, pass)
+                .addOnCompleteListener { task ->
+                    btnLogin.isEnabled = true
+                    if (task.isSuccessful) {
+                        // Asegura doc en /users/{uid}
+                        seedMyUserDoc(
+                            onDone = {
+                                // Navega a la lista de chats limpiando el back stack de auth
+                                val navOptions = NavOptions.Builder()
+                                    .setPopUpTo(R.id.welcomeFragment, true)
+                                    .build()
+                                findNavController().navigate(R.id.chatListFragment, null, navOptions)
+                            },
+                            onError = {
+                                // Incluso si falla el seed, seguimos a la app
+                                val navOptions = NavOptions.Builder()
+                                    .setPopUpTo(R.id.welcomeFragment, true)
+                                    .build()
+                                findNavController().navigate(R.id.chatListFragment, null, navOptions)
+                            }
                         )
-                    }
-                    is Result.Error -> {
-                        // Manejo específico de errores de Firebase
-                        val errorMessage = when {
-                            res.exception.message?.contains("password is invalid") == true -> 
-                                "Contraseña incorrecta"
-                            res.exception.message?.contains("no user record") == true -> 
-                                "No existe una cuenta con este email"
-                            res.exception.message?.contains("badly formatted") == true -> 
-                                "Email mal formateado"
-                            res.exception.message?.contains("network error") == true -> 
-                                "Error de conexión. Verifica tu internet"
-                            else -> "Error de inicio de sesión: ${res.exception.message ?: "Error desconocido"}"
-                        }
-                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(requireContext(), task.exception?.localizedMessage ?: "Error de login", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }
         }
 
-        binding.btnGoToRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_login_to_register)
+        btnGoToRegister.setOnClickListener {
+            findNavController().navigate(R.id.registerFragment)
         }
+    }
+
+    private fun seedMyUserDoc(onDone: () -> Unit, onError: () -> Unit) {
+        val user = auth.currentUser ?: return onError()
+        val uid = user.uid
+        val emailLower = (user.email ?: return onError()).lowercase(Locale.getDefault())
+        val display = user.displayName ?: emailLower.substringBefore("@")
+
+        val ref = db.collection("users").document(uid)
+        ref.get()
+            .addOnSuccessListener { snap ->
+                if (snap.exists()) {
+                    onDone(); return@addOnSuccessListener
+                }
+                val data = hashMapOf(
+                    "email" to emailLower,
+                    "displayName" to display
+                )
+                ref.set(data)
+                    .addOnSuccessListener { onDone() }
+                    .addOnFailureListener { onError() }
+            }
+            .addOnFailureListener { onError() }
     }
 }

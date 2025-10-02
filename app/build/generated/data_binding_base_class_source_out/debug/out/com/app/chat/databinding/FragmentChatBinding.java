@@ -4,49 +4,49 @@ package com.app.chat.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.app.chat.R;
+import com.google.android.material.appbar.MaterialToolbar;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
 
 public final class FragmentChatBinding implements ViewBinding {
   @NonNull
-  private final ConstraintLayout rootView;
+  private final LinearLayout rootView;
 
   @NonNull
-  public final Button btnSend;
+  public final ImageButton btnSend;
 
   @NonNull
   public final EditText etMessage;
 
   @NonNull
-  public final LinearLayout messageBar;
-
-  @NonNull
   public final RecyclerView rvMessages;
 
-  private FragmentChatBinding(@NonNull ConstraintLayout rootView, @NonNull Button btnSend,
-      @NonNull EditText etMessage, @NonNull LinearLayout messageBar,
-      @NonNull RecyclerView rvMessages) {
+  @NonNull
+  public final MaterialToolbar toolbarChat;
+
+  private FragmentChatBinding(@NonNull LinearLayout rootView, @NonNull ImageButton btnSend,
+      @NonNull EditText etMessage, @NonNull RecyclerView rvMessages,
+      @NonNull MaterialToolbar toolbarChat) {
     this.rootView = rootView;
     this.btnSend = btnSend;
     this.etMessage = etMessage;
-    this.messageBar = messageBar;
     this.rvMessages = rvMessages;
+    this.toolbarChat = toolbarChat;
   }
 
   @Override
   @NonNull
-  public ConstraintLayout getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -72,7 +72,7 @@ public final class FragmentChatBinding implements ViewBinding {
     int id;
     missingId: {
       id = R.id.btnSend;
-      Button btnSend = ViewBindings.findChildViewById(rootView, id);
+      ImageButton btnSend = ViewBindings.findChildViewById(rootView, id);
       if (btnSend == null) {
         break missingId;
       }
@@ -83,20 +83,20 @@ public final class FragmentChatBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.messageBar;
-      LinearLayout messageBar = ViewBindings.findChildViewById(rootView, id);
-      if (messageBar == null) {
-        break missingId;
-      }
-
       id = R.id.rvMessages;
       RecyclerView rvMessages = ViewBindings.findChildViewById(rootView, id);
       if (rvMessages == null) {
         break missingId;
       }
 
-      return new FragmentChatBinding((ConstraintLayout) rootView, btnSend, etMessage, messageBar,
-          rvMessages);
+      id = R.id.toolbarChat;
+      MaterialToolbar toolbarChat = ViewBindings.findChildViewById(rootView, id);
+      if (toolbarChat == null) {
+        break missingId;
+      }
+
+      return new FragmentChatBinding((LinearLayout) rootView, btnSend, etMessage, rvMessages,
+          toolbarChat);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
