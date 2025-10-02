@@ -37,7 +37,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Views del layout que MANTENEMOS tal cual tu XML
+        // === Vistas que ya tiene tu XML ===
         val rv = view.findViewById<RecyclerView>(R.id.rvChats)
         val tvEmpty = view.findViewById<View>(R.id.tvEmpty)
         val fab = view.findViewById<FloatingActionButton>(R.id.fab_add)
@@ -48,10 +48,16 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         val menuBroadcast = view.findViewById<TextView>(R.id.menu_broadcast)
         val menuTeam = view.findViewById<TextView>(R.id.menu_team)
 
-        // ***** Agregar entrada "Logout" al context_menu sin tocar tu XML *****
+        // === Si tu layout tiene un botón de logout (p.ej. @+id/btnLogout), lo cableamos ===
+        view.findViewById<View?>(R.id.btnLogout)?.setOnClickListener {
+            performLogout()
+        }
+
+        // === Logout adicional dentro del menú contextual (por si prefieres ese flujo) ===
+        // (No depende de tu XML; lo agregamos por código al final del menú)
         val menuLogout = TextView(requireContext()).apply {
             id = View.generateViewId()
-            text = "Logout"
+            text = getString(R.string.logout) // ya agregaste strings_logout.xml
             setPadding(dp(12), 0, dp(12), 0)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -63,23 +69,13 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
             typeface = Typeface.DEFAULT
             isClickable = true
             isFocusable = true
-            setOnClickListener {
-                // Cerrar sesión y volver a login
-                FirebaseAuth.getInstance().signOut()
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.chatListFragment, true)
-                    .build()
-                try {
-                    findNavController().navigate(R.id.loginFragment, null, navOptions)
-                } catch (_: Exception) {
-                    requireActivity().finish()
-                }
-            }
+            setOnClickListener { performLogout() }
         }
-        // Lo añadimos al final del menú contextual
-        contextMenu.addView(menuLogout)
+        if (contextMenu.indexOfChild(menuLogout) == -1) {
+            contextMenu.addView(menuLogout)
+        }
 
-        // Adapter
+        // === Lista ===
         adapter = ChatAdapter { chat ->
             findNavController().navigate(
                 R.id.action_chatList_to_chat,
@@ -89,7 +85,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
 
-        // Sembrar/asegurar documento del usuario actual en /users/{uid}
+        // Asegurar doc del usuario actual en /users/{uid}
         seedMyUserDoc()
 
         // Cargar lista
@@ -103,19 +99,17 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
             }
         }
 
-        // FAB abre/cierra el menú contextual
-        fab.setOnClickListener {
-            contextMenu.isVisible = !contextMenu.isVisible
-        }
+        // FAB: abre/cierra menú contextual
+        fab.setOnClickListener { contextMenu.isVisible = !contextMenu.isVisible }
 
-        // Al tocar fuera, cerramos menú contextual
+        // Tocar fuera cierra el menú contextual
         view.setOnClickListener { v ->
             if (v.id != R.id.context_menu && contextMenu.isVisible) {
                 contextMenu.isVisible = false
             }
         }
 
-        // Acciones del menú (puedes personalizarlas después)
+        // Acciones menú contextual
         menuChat.setOnClickListener {
             contextMenu.isVisible = false
             showNewChatDialog()
@@ -135,6 +129,23 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         menuTeam.setOnClickListener {
             contextMenu.isVisible = false
             Toast.makeText(requireContext(), "Team (pendiente)", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // ---------- Logout centralizado ----------
+    private fun performLogout() {
+        try {
+            auth.signOut()
+        } catch (_: Exception) { /* no-op */ }
+
+        // Volver al login y limpiar back stack para que no vuelva a ChatList
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.chatListFragment, true)
+            .build()
+        try {
+            findNavController().navigate(R.id.loginFragment, null, navOptions)
+        } catch (_: Exception) {
+            requireActivity().finish()
         }
     }
 
@@ -176,7 +187,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
             return
         }
 
-        // Buscar el usuario por email en /users
         db.collection("users")
             .whereEqualTo("email", email)
             .limit(1)

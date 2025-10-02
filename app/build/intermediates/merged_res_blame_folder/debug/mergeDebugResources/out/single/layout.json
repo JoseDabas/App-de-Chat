@@ -8,12 +8,12 @@
         "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_message_mine.xml"
     },
     {
-        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\item_chat.xml",
-        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_chat.xml"
+        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/fragment_chat_list.xml",
+        "source": "com.app.chat.app-main-62:/layout/fragment_chat_list.xml"
     },
     {
-        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/fragment_chat.xml",
-        "source": "com.app.chat.app-main-62:/layout/fragment_chat.xml"
+        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\item_chat.xml",
+        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_chat.xml"
     },
     {
         "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_chat_list.xml",

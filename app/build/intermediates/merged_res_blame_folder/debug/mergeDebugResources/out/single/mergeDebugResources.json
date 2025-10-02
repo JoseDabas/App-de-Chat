@@ -8,8 +8,8 @@
         "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\bg_bubble_mine.xml"
     },
     {
-        "merged": "com.app.chat.app-debug-60:/layout_fragment_chat.xml.flat",
-        "source": "com.app.chat.app-main-62:/layout/fragment_chat.xml"
+        "merged": "com.app.chat.app-debug-60:/drawable_ic_logout.xml.flat",
+        "source": "com.app.chat.app-main-62:/drawable/ic_logout.xml"
     },
     {
         "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_item_message_other.xml.flat",
@@ -68,12 +68,12 @@
         "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\button_primary_background.xml"
     },
     {
-        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_fragment_welcome.xml.flat",
-        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_welcome.xml"
-    },
-    {
         "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_fragment_chat_list.xml.flat",
         "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_chat_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_fragment_welcome.xml.flat",
+        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_welcome.xml"
     },
     {
         "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_item_message_in.xml.flat",

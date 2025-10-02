@@ -21,6 +21,7 @@ drawable context_menu_background
 drawable ic_add
 drawable ic_arrow_back_24
 drawable ic_chat
+drawable ic_logout
 drawable ic_notifications
 drawable ic_person
 drawable ic_search
@@ -39,6 +40,7 @@ id bottomNavigation
 id btnBackReg
 id btnGoToRegister
 id btnLogin
+id btnLogout
 id btnMessages
 id btnProfile
 id btnRegister
@@ -70,6 +72,7 @@ id rvMessages
 id searchContainer
 id toolbarChat
 id tvEmpty
+id tvHeaderTitle
 id tvMsgMine
 id tvMsgOther
 id tvSubtitle
@@ -94,6 +97,7 @@ string google_api_key
 string google_app_id
 string google_crash_reporting_api_key
 string google_storage_bucket
+string logout
 string project_id
 string title_chats
 style Theme.AppChat
