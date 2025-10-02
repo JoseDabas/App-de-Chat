@@ -4,6 +4,8 @@ package com.app.chat.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.app.chat.R;
-import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -22,19 +24,73 @@ public final class FragmentChatListBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
+  public final LinearLayout bottomNavigation;
+
+  @NonNull
+  public final LinearLayout btnMessages;
+
+  @NonNull
+  public final LinearLayout btnProfile;
+
+  @NonNull
+  public final LinearLayout contextMenu;
+
+  @NonNull
+  public final EditText etSearch;
+
+  @NonNull
+  public final FloatingActionButton fabAdd;
+
+  @NonNull
+  public final LinearLayout header;
+
+  @NonNull
+  public final TextView menuBroadcast;
+
+  @NonNull
+  public final TextView menuChat;
+
+  @NonNull
+  public final TextView menuContact;
+
+  @NonNull
+  public final TextView menuGroup;
+
+  @NonNull
+  public final TextView menuTeam;
+
+  @NonNull
   public final RecyclerView rvChats;
 
   @NonNull
-  public final MaterialToolbar toolbar;
+  public final LinearLayout searchContainer;
 
   @NonNull
   public final TextView tvEmpty;
 
-  private FragmentChatListBinding(@NonNull ConstraintLayout rootView, @NonNull RecyclerView rvChats,
-      @NonNull MaterialToolbar toolbar, @NonNull TextView tvEmpty) {
+  private FragmentChatListBinding(@NonNull ConstraintLayout rootView,
+      @NonNull LinearLayout bottomNavigation, @NonNull LinearLayout btnMessages,
+      @NonNull LinearLayout btnProfile, @NonNull LinearLayout contextMenu,
+      @NonNull EditText etSearch, @NonNull FloatingActionButton fabAdd,
+      @NonNull LinearLayout header, @NonNull TextView menuBroadcast, @NonNull TextView menuChat,
+      @NonNull TextView menuContact, @NonNull TextView menuGroup, @NonNull TextView menuTeam,
+      @NonNull RecyclerView rvChats, @NonNull LinearLayout searchContainer,
+      @NonNull TextView tvEmpty) {
     this.rootView = rootView;
+    this.bottomNavigation = bottomNavigation;
+    this.btnMessages = btnMessages;
+    this.btnProfile = btnProfile;
+    this.contextMenu = contextMenu;
+    this.etSearch = etSearch;
+    this.fabAdd = fabAdd;
+    this.header = header;
+    this.menuBroadcast = menuBroadcast;
+    this.menuChat = menuChat;
+    this.menuContact = menuContact;
+    this.menuGroup = menuGroup;
+    this.menuTeam = menuTeam;
     this.rvChats = rvChats;
-    this.toolbar = toolbar;
+    this.searchContainer = searchContainer;
     this.tvEmpty = tvEmpty;
   }
 
@@ -65,15 +121,87 @@ public final class FragmentChatListBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.bottomNavigation;
+      LinearLayout bottomNavigation = ViewBindings.findChildViewById(rootView, id);
+      if (bottomNavigation == null) {
+        break missingId;
+      }
+
+      id = R.id.btnMessages;
+      LinearLayout btnMessages = ViewBindings.findChildViewById(rootView, id);
+      if (btnMessages == null) {
+        break missingId;
+      }
+
+      id = R.id.btnProfile;
+      LinearLayout btnProfile = ViewBindings.findChildViewById(rootView, id);
+      if (btnProfile == null) {
+        break missingId;
+      }
+
+      id = R.id.context_menu;
+      LinearLayout contextMenu = ViewBindings.findChildViewById(rootView, id);
+      if (contextMenu == null) {
+        break missingId;
+      }
+
+      id = R.id.etSearch;
+      EditText etSearch = ViewBindings.findChildViewById(rootView, id);
+      if (etSearch == null) {
+        break missingId;
+      }
+
+      id = R.id.fab_add;
+      FloatingActionButton fabAdd = ViewBindings.findChildViewById(rootView, id);
+      if (fabAdd == null) {
+        break missingId;
+      }
+
+      id = R.id.header;
+      LinearLayout header = ViewBindings.findChildViewById(rootView, id);
+      if (header == null) {
+        break missingId;
+      }
+
+      id = R.id.menu_broadcast;
+      TextView menuBroadcast = ViewBindings.findChildViewById(rootView, id);
+      if (menuBroadcast == null) {
+        break missingId;
+      }
+
+      id = R.id.menu_chat;
+      TextView menuChat = ViewBindings.findChildViewById(rootView, id);
+      if (menuChat == null) {
+        break missingId;
+      }
+
+      id = R.id.menu_contact;
+      TextView menuContact = ViewBindings.findChildViewById(rootView, id);
+      if (menuContact == null) {
+        break missingId;
+      }
+
+      id = R.id.menu_group;
+      TextView menuGroup = ViewBindings.findChildViewById(rootView, id);
+      if (menuGroup == null) {
+        break missingId;
+      }
+
+      id = R.id.menu_team;
+      TextView menuTeam = ViewBindings.findChildViewById(rootView, id);
+      if (menuTeam == null) {
+        break missingId;
+      }
+
       id = R.id.rvChats;
       RecyclerView rvChats = ViewBindings.findChildViewById(rootView, id);
       if (rvChats == null) {
         break missingId;
       }
 
-      id = R.id.toolbar;
-      MaterialToolbar toolbar = ViewBindings.findChildViewById(rootView, id);
-      if (toolbar == null) {
+      id = R.id.searchContainer;
+      LinearLayout searchContainer = ViewBindings.findChildViewById(rootView, id);
+      if (searchContainer == null) {
         break missingId;
       }
 
@@ -83,7 +211,9 @@ public final class FragmentChatListBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentChatListBinding((ConstraintLayout) rootView, rvChats, toolbar, tvEmpty);
+      return new FragmentChatListBinding((ConstraintLayout) rootView, bottomNavigation, btnMessages,
+          btnProfile, contextMenu, etSearch, fabAdd, header, menuBroadcast, menuChat, menuContact,
+          menuGroup, menuTeam, rvChats, searchContainer, tvEmpty);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

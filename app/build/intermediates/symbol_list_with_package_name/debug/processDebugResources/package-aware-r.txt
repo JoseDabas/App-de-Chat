@@ -2976,6 +2976,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable bottom_nav_background
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -3008,6 +3009,7 @@ drawable common_google_signin_btn_text_light
 drawable common_google_signin_btn_text_light_focused
 drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
+drawable context_menu_background
 drawable design_fab_background
 drawable design_ic_visibility
 drawable design_ic_visibility_off
@@ -3015,6 +3017,7 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable ic_add
 drawable ic_arrow_back_black_24
 drawable ic_call_answer
 drawable ic_call_answer_low
@@ -3022,6 +3025,7 @@ drawable ic_call_answer_video
 drawable ic_call_answer_video_low
 drawable ic_call_decline
 drawable ic_call_decline_low
+drawable ic_chat
 drawable ic_clear_black_24
 drawable ic_clock_black_24dp
 drawable ic_keyboard_black_24dp
@@ -3032,9 +3036,12 @@ drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
+drawable ic_notifications
 drawable ic_other_sign_in
 drawable ic_passkey
 drawable ic_password
+drawable ic_person
+drawable ic_search
 drawable ic_search_black_24
 drawable indeterminate_static
 drawable m3_avd_hide_password
@@ -3109,6 +3116,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable search_background
 drawable talknow
 drawable test_level_drawable
 drawable tooltip_frame_dark
@@ -3210,6 +3218,7 @@ id beginOnFirstDraw
 id beginning
 id blocking
 id bottom
+id bottomNavigation
 id bounce
 id browser_actions_header_text
 id browser_actions_menu_item_icon
@@ -3219,6 +3228,8 @@ id browser_actions_menu_view
 id btnBackReg
 id btnGoToRegister
 id btnLogin
+id btnMessages
+id btnProfile
 id btnRegister
 id btnSend
 id buttonPanel
@@ -3246,6 +3257,7 @@ id confirm_button
 id container
 id content
 id contentPanel
+id context_menu
 id contiguous
 id coordinator
 id cos
@@ -3298,9 +3310,11 @@ id etEmailReg
 id etMessage
 id etPass
 id etPassReg
+id etSearch
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
+id fab_add
 id fade
 id fill
 id fill_horizontal
@@ -3324,6 +3338,7 @@ id graph
 id graph_wrap
 id group_divider
 id groups
+id header
 id header_title
 id hide_ime_id
 id hideable
@@ -3387,6 +3402,11 @@ id material_timepicker_ok_button
 id material_timepicker_view
 id material_value_index
 id matrix
+id menu_broadcast
+id menu_chat
+id menu_contact
+id menu_group
+id menu_team
 id message
 id messageBar
 id middle
@@ -3501,6 +3521,7 @@ id scrollIndicatorDown
 id scrollIndicatorUp
 id scrollView
 id scrollable
+id searchContainer
 id search_badge
 id search_bar
 id search_button
@@ -3583,7 +3604,6 @@ id title
 id titleDividerNoCustom
 id title_template
 id toggle
-id toolbar
 id top
 id topPanel
 id touch_outside
