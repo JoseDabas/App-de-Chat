@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 }
             } else {
                 // Sesión vigente: llevar directo a la lista de chats
-                if (navController.currentDestination?.id == R.id.loginFragment) {
+                val currentDestination = navController.currentDestination?.id
+                if (currentDestination == R.id.welcomeFragment || currentDestination == R.id.loginFragment) {
                     navController.navigate(
                         R.id.chatListFragment,
                         null,
@@ -42,6 +43,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     )
                 }
             }
-        } // Si user == null, se queda en loginFragment (startDestination)
+        } // Si user == null, se queda en welcomeFragment (startDestination)
     }
 }

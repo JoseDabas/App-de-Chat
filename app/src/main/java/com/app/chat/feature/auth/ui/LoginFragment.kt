@@ -12,6 +12,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.app.chat.R
 import com.app.chat.core.session.SessionPrefs
+import com.app.chat.core.notifications.NotificationManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Locale
@@ -53,6 +54,8 @@ class LoginFragment : Fragment() {
                         // Asegura doc en /users/{uid}
                         seedMyUserDoc(
                             onDone = {
+                                // Actualizar token FCM para el usuario logueado
+                                NotificationManager.updateFCMTokenForUser()
                                 // Navega a la lista de chats limpiando el back stack de auth
                                 val navOptions = NavOptions.Builder()
                                     .setPopUpTo(R.id.welcomeFragment, true)
@@ -60,6 +63,8 @@ class LoginFragment : Fragment() {
                                 findNavController().navigate(R.id.chatListFragment, null, navOptions)
                             },
                             onError = {
+                                // Actualizar token FCM incluso si falla el seed
+                                NotificationManager.updateFCMTokenForUser()
                                 // Incluso si falla el seed, seguimos a la app
                                 val navOptions = NavOptions.Builder()
                                     .setPopUpTo(R.id.welcomeFragment, true)

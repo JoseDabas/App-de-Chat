@@ -23,8 +23,10 @@ class ChatAdapter(
     }
 
     class VH(itemView: View, private val onClick: (UiChatRow) -> Unit) : RecyclerView.ViewHolder(itemView) {
-        private val tvEmail: TextView = itemView.findViewById(R.id.tvEmail)
-        private val tvPresence: TextView = itemView.findViewById(R.id.tvPresence)
+        private val tvDisplayName: TextView = itemView.findViewById(R.id.tvDisplayName)
+        private val tvTime: TextView = itemView.findViewById(R.id.tvTime)
+        private val tvLastMessage: TextView = itemView.findViewById(R.id.tvLastMessage)
+        private val tvUnreadCount: TextView = itemView.findViewById(R.id.tvUnreadCount)
 
         private var current: UiChatRow? = null
 
@@ -36,8 +38,17 @@ class ChatAdapter(
 
         fun bind(row: UiChatRow) {
             current = row
-            tvEmail.text = row.otherEmail
-            tvPresence.text = row.presence
+            tvDisplayName.text = row.otherDisplayName
+            tvTime.text = row.lastMessageTime
+            tvLastMessage.text = row.lastMessage
+            
+            // Mostrar contador de mensajes no leídos solo si hay mensajes
+            if (row.unreadCount > 0) {
+                tvUnreadCount.text = row.unreadCount.toString()
+                tvUnreadCount.visibility = View.VISIBLE
+            } else {
+                tvUnreadCount.visibility = View.GONE
+            }
         }
     }
 

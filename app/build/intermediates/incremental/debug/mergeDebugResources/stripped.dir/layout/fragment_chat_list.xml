@@ -164,76 +164,124 @@
     <!-- Context Menu (initialmente oculto) -->
     <LinearLayout
         android:id="@+id/context_menu"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="180dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="140dp"
         android:background="@drawable/context_menu_background"
         android:orientation="vertical"
-        android:padding="8dp"
+        android:padding="12dp"
         android:visibility="gone"
+        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <!-- Título del menú -->
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nuevo Chat"
+            android:textColor="@color/turquoise_blue"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="8dp" />
+
+        <!-- Línea divisoria -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Opción Chat Individual -->
+        <LinearLayout
             android:id="@+id/menu_chat"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:text="Chat"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:background="?android:attr/selectableItemBackground" />
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_marginBottom="4dp">
 
-        <TextView
-            android:id="@+id/menu_contact"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:text="Contact"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:background="?android:attr/selectableItemBackground" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_person"
+                android:tint="@color/turquoise_blue"
+                android:layout_marginEnd="12dp" />
 
-        <TextView
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chat Individual"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Conversa con una persona"
+                    android:textColor="#666666"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Opción Grupo -->
+        <LinearLayout
             android:id="@+id/menu_group"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:text="Group"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:background="?android:attr/selectableItemBackground" />
+            android:background="?android:attr/selectableItemBackground">
 
-        <TextView
-            android:id="@+id/menu_broadcast"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:text="Broadcast"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:background="?android:attr/selectableItemBackground" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_chat"
+                android:tint="@color/turquoise_blue"
+                android:layout_marginEnd="12dp" />
 
-        <TextView
-            android:id="@+id/menu_team"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:text="Team"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:background="?android:attr/selectableItemBackground" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grupo"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Crea un chat grupal"
+                    android:textColor="#666666"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

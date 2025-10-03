@@ -8,8 +8,8 @@
         "source": "com.app.chat.app-main-62:/layout/item_message_other.xml"
     },
     {
-        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/item_chat.xml",
-        "source": "com.app.chat.app-main-62:/layout/item_chat.xml"
+        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/toolbar_chat_user_info.xml",
+        "source": "com.app.chat.app-main-62:/layout/toolbar_chat_user_info.xml"
     },
     {
         "merged": "com.app.chat.app-mergeDebugResources-59:/layout/fragment_chat_list.xml",
@@ -24,16 +24,8 @@
         "source": "com.app.chat.app-main-62:/layout/fragment_welcome.xml"
     },
     {
-        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/activity_main.xml",
-        "source": "com.app.chat.app-main-62:/layout/activity_main.xml"
-    },
-    {
         "merged": "com.app.chat.app-mergeDebugResources-59:/layout/item_message_mine.xml",
         "source": "com.app.chat.app-main-62:/layout/item_message_mine.xml"
-    },
-    {
-        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/activity_image_viewer.xml",
-        "source": "com.app.chat.app-main-62:/layout/activity_image_viewer.xml"
     },
     {
         "merged": "com.app.chat.app-mergeDebugResources-59:/layout/fragment_chat.xml",
@@ -42,5 +34,17 @@
     {
         "merged": "com.app.chat.app-mergeDebugResources-59:/layout/fragment_register.xml",
         "source": "com.app.chat.app-main-62:/layout/fragment_register.xml"
+    },
+    {
+        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/item_chat.xml",
+        "source": "com.app.chat.app-main-62:/layout/item_chat.xml"
+    },
+    {
+        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/activity_main.xml",
+        "source": "com.app.chat.app-main-62:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/activity_image_viewer.xml",
+        "source": "com.app.chat.app-main-62:/layout/activity_image_viewer.xml"
     }
 ]

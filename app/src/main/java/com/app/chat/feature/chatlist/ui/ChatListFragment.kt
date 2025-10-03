@@ -23,13 +23,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.chat.R
 import com.app.chat.core.PresenceManager
 import com.app.chat.core.session.SessionPrefs
+import com.app.chat.core.notifications.NotificationManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
 
@@ -61,14 +65,13 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         val fab = view.findViewById<FloatingActionButton>(R.id.fab_add)
         val contextMenu = view.findViewById<LinearLayout>(R.id.context_menu)
         val menuChat = view.findViewById<TextView>(R.id.menu_chat)
-        val menuContact = view.findViewById<TextView>(R.id.menu_contact)
         val menuGroup = view.findViewById<TextView>(R.id.menu_group)
-        val menuBroadcast = view.findViewById<TextView>(R.id.menu_broadcast)
-        val menuTeam = view.findViewById<TextView>(R.id.menu_team)
         val ivLogout = view.findViewById<ImageView>(R.id.ivLogout)
 
         ivLogout?.setOnClickListener {
             PresenceManager.goOffline()
+            // Limpiar token FCM antes del logout
+            NotificationManager.clearFCMToken()
             FirebaseAuth.getInstance().signOut()
             SessionPrefs.clear(requireContext())
             val navOptions = NavOptions.Builder()
@@ -112,15 +115,25 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
                         chatId = chat.id,
                         otherUid = otherUid,
                         otherEmail = "cargando…",
-                        presence = "Offline"
+                        otherDisplayName = "cargando…",
+                        presence = "Offline",
+                        lastMessage = chat.lastMessage,
+                        lastMessageTime = "ahora", // Por ahora, luego implementaremos el tiempo real
+                        unreadCount = 0 // Por ahora, luego implementaremos el conteo real
                     )
                     rowsByChatId[chat.id] = baseRow
+
+                    // Cargar información del último mensaje
+                    loadLastMessageInfo(chat.id)
 
                     db.collection("users").document(otherUid)
                         .get()
                         .addOnSuccessListener { snap ->
                             val email = (snap.getString("email") ?: "").ifEmpty { "usuario@$otherUid" }
-                            updateRow(chat.id) { it.copy(otherEmail = email) }
+                            val displayName = (snap.getString("displayName") ?: "").ifEmpty { 
+                                email.substringBefore("@").ifEmpty { "Usuario" }
+                            }
+                            updateRow(chat.id) { it.copy(otherEmail = email, otherDisplayName = displayName) }
                         }
                 }
 
@@ -141,21 +154,9 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
             contextMenu.isVisible = false
             showNewChatDialog()
         }
-        menuContact.setOnClickListener {
-            contextMenu.isVisible = false
-            Toast.makeText(requireContext(), "Contact (pendiente)", Toast.LENGTH_SHORT).show()
-        }
         menuGroup.setOnClickListener {
             contextMenu.isVisible = false
             Toast.makeText(requireContext(), "Group (pendiente)", Toast.LENGTH_SHORT).show()
-        }
-        menuBroadcast.setOnClickListener {
-            contextMenu.isVisible = false
-            Toast.makeText(requireContext(), "Broadcast (pendiente)", Toast.LENGTH_SHORT).show()
-        }
-        menuTeam.setOnClickListener {
-            contextMenu.isVisible = false
-            Toast.makeText(requireContext(), "Team (pendiente)", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -331,11 +332,62 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
     private fun dmIdOf(a: String, b: String): String {
         return if (a < b) "dm_${a}_$b" else "dm_${b}_$a"
     }
+
+    private fun formatTime(timestamp: Long): String {
+        val now = System.currentTimeMillis()
+        val diff = now - timestamp
+        
+        return when {
+            diff < 86400_000 -> { // menos de 1 día - mostrar hora en formato 24h
+                val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                timeFormat.timeZone = TimeZone.getDefault() // Usar zona horaria local
+                timeFormat.format(Date(timestamp))
+            }
+            diff < 604800_000 -> { // menos de 1 semana - mostrar día de la semana
+                val dayFormat = SimpleDateFormat("EEE", Locale.getDefault())
+                dayFormat.timeZone = TimeZone.getDefault() // Usar zona horaria local
+                dayFormat.format(Date(timestamp))
+            }
+            else -> { // más de 1 semana - mostrar fecha
+                val dateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
+                dateFormat.timeZone = TimeZone.getDefault() // Usar zona horaria local
+                dateFormat.format(Date(timestamp))
+            }
+        }
+    }
+
+    private fun loadLastMessageInfo(chatId: String) {
+        db.collection("chats")
+            .document(chatId)
+            .collection("messages")
+            .orderBy("createdAt", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .limit(1)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    val lastMessage = querySnapshot.documents.first()
+                    val text = lastMessage.getString("text") ?: ""
+                    val timestamp = lastMessage.getTimestamp("createdAt")?.toDate()?.time ?: System.currentTimeMillis()
+                    val formattedTime = formatTime(timestamp)
+                    
+                    updateRow(chatId) { row ->
+                        row.copy(
+                            lastMessage = if (text.length > 30) "${text.take(30)}..." else text,
+                            lastMessageTime = formattedTime
+                        )
+                    }
+                }
+            }
+    }
 }
 
 data class UiChatRow(
     val chatId: String,
     val otherUid: String,
     val otherEmail: String,
-    val presence: String
+    val otherDisplayName: String,
+    val presence: String,
+    val lastMessage: String = "",
+    val lastMessageTime: String = "",
+    val unreadCount: Int = 0
 )

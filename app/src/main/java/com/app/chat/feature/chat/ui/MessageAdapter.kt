@@ -61,7 +61,7 @@ class MessageAdapter(private val currentUid: String) :
         private val tv: TextView = v.findViewById(R.id.tvMsgOther)
         private val iv: ImageView = v.findViewById(R.id.ivImageOther)
         fun bind(m: UiMessage) {
-            tv.text = buildBubbleText("${m.senderEmail} · ${m.time}", m.text, tv)
+            tv.text = buildBubbleText("${m.senderDisplayName} · ${m.time}", m.text, tv)
             bindImage(iv, m.imageBase64)
         }
     }

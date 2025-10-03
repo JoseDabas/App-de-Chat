@@ -13,7 +13,17 @@
         android:backgroundTint="@android:color/white"
         app:titleTextColor="@color/black"
         app:navigationIcon="@drawable/ic_arrow_back_24"
-        app:navigationIconTint="@color/black" />
+        app:navigationIconTint="@color/black">
+
+        <include
+            android:id="@+id/userInfoLayout"
+            layout="@layout/toolbar_chat_user_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="8dp" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMessages"

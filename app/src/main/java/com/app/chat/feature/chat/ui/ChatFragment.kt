@@ -9,26 +9,40 @@ import android.util.Base64
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.chat.R
+import com.app.chat.core.notifications.NotificationManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import android.util.Log
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     private val auth by lazy { FirebaseAuth.getInstance() }
     private val db by lazy { FirebaseFirestore.getInstance() }
+    private val rtdb by lazy { 
+        val url = getString(R.string.rtdb_url)
+        FirebaseDatabase.getInstance(url)
+    }
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var rv: RecyclerView
@@ -36,12 +50,24 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private lateinit var btnSend: ImageButton
     private lateinit var btnImage: ImageButton
     private lateinit var adapter: MessageAdapter
+    
+    // Referencias a los elementos de la toolbar personalizada
+    private lateinit var ivUserIcon: ImageView
+    private lateinit var tvUserName: TextView
+    private lateinit var tvUserStatus: TextView
 
     private val chatId: String by lazy {
         requireArguments().getString("chatId") ?: error("chatId requerido")
     }
 
     private val usersEmailCache = mutableMapOf<String, String>()
+    private val usersDisplayNameCache = mutableMapOf<String, String>()
+    private var previousMessageCount = 0 // Para detectar nuevos mensajes
+    private var otherUserId: String? = null
+    
+    // Referencias para el listener de presencia
+    private var presenceRef: DatabaseReference? = null
+    private var presenceListener: ValueEventListener? = null
 
     private val pickImage =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -56,6 +82,11 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         etMessage = view.findViewById(R.id.etMessage)
         btnSend = view.findViewById(R.id.btnSend)
         btnImage = view.findViewById(R.id.btnImage)
+        
+        // Inicializar referencias a los elementos de la toolbar personalizada
+        ivUserIcon = view.findViewById(R.id.ivUserIcon)
+        tvUserName = view.findViewById(R.id.tvUserName)
+        tvUserStatus = view.findViewById(R.id.tvUserStatus)
 
         // Back button
         toolbar.navigationIcon =
@@ -68,18 +99,122 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         rv.layoutManager = LinearLayoutManager(requireContext()).apply { stackFromEnd = true }
         rv.adapter = adapter
 
+        loadChatInfoAndSetupToolbar()
         preloadParticipantsThenListen()
 
         btnSend.setOnClickListener { sendTextMessage() }
         btnImage.setOnClickListener { pickImage.launch("image/*") }
     }
 
+    private fun loadChatInfoAndSetupToolbar() {
+        val currentUserId = auth.currentUser?.uid ?: return
+        
+        db.collection("chats").document(chatId).get()
+            .addOnSuccessListener { chatSnap ->
+                @Suppress("UNCHECKED_CAST")
+                val participants = (chatSnap.get("participants") as? List<String>).orEmpty()
+                
+                // Encontrar el ID del otro usuario (no el actual)
+                otherUserId = participants.firstOrNull { it != currentUserId }
+                
+                otherUserId?.let { userId ->
+                    loadUserInfo(userId)
+                    setupPresenceListener(userId)
+                }
+            }
+    }
+
+    private fun loadUserInfo(userId: String) {
+        db.collection("users").document(userId).get()
+            .addOnSuccessListener { userSnap ->
+                val displayName = userSnap.getString("displayName") 
+                    ?: userSnap.getString("email")?.substringBefore("@") 
+                    ?: "Usuario"
+                
+                tvUserName.text = displayName
+            }
+            .addOnFailureListener {
+                tvUserName.text = "Usuario"
+            }
+    }
+
+    private fun loadUserDisplayName(userId: String, callback: (String) -> Unit) {
+        // Si ya está en cache, usar el valor cacheado
+        usersDisplayNameCache[userId]?.let { 
+            callback(it)
+            return 
+        }
+        
+        db.collection("users").document(userId).get()
+            .addOnSuccessListener { userSnap ->
+                val email = userSnap.getString("email") ?: ""
+                val displayName = userSnap.getString("displayName") 
+                    ?: email.substringBefore("@").ifEmpty { "Usuario" }
+                
+                // Cachear tanto email como displayName
+                usersEmailCache[userId] = email
+                usersDisplayNameCache[userId] = displayName
+                
+                callback(displayName)
+            }
+            .addOnFailureListener {
+                val fallbackName = "Usuario"
+                usersDisplayNameCache[userId] = fallbackName
+                callback(fallbackName)
+            }
+    }
+
+    private fun setupPresenceListener(userId: String) {
+        // Limpiar listener anterior si existe
+        presenceRef?.let { ref ->
+            presenceListener?.let { ref.removeEventListener(it) }
+        }
+        
+        val ref = rtdb.getReference("presence").child(userId)
+        ref.keepSynced(true)
+        
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Aplicar la misma lógica que en ChatListFragment
+                val direct = snapshot.getValue(Boolean::class.java)
+                val subOnline = snapshot.child("online").getValue(Boolean::class.java)
+                val state = snapshot.child("state").getValue(String::class.java)
+
+                val online = when {
+                    direct != null -> direct
+                    subOnline != null -> subOnline
+                    state != null -> state.equals("online", true)
+                    else -> false
+                }
+                
+                val status = if (online) "Online" else "Offline"
+                val statusColor = if (online) R.color.turquoise_blue else android.R.color.darker_gray
+                
+                tvUserStatus.text = status
+                tvUserStatus.setTextColor(resources.getColor(statusColor, null))
+                
+                Log.d("ChatFragment", "Presence [$userId] -> $online")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                tvUserStatus.text = "Offline"
+                tvUserStatus.setTextColor(resources.getColor(android.R.color.darker_gray, null))
+                Log.w("ChatFragment", "Presence listener cancelled: ${error.message}")
+            }
+        }
+        
+        ref.addValueEventListener(listener)
+        presenceRef = ref
+        presenceListener = listener
+    }
+
     private fun formatTime(ts: com.google.firebase.Timestamp?): String {
         if (ts == null) return ""
-        val d: Date = ts.toDate()
-        val is24 = DateFormat.is24HourFormat(requireContext())
-        val pattern = if (is24) "HH:mm" else "hh:mm a"
-        return java.text.SimpleDateFormat(pattern, Locale.getDefault()).format(d)
+        val d: Date = ts.toDate() // Firebase Timestamp ya convierte a zona horaria local
+        val pattern = "HH:mm" // Siempre usar formato de 24 horas
+        val formatter = java.text.SimpleDateFormat(pattern, Locale.getDefault())
+        formatter.timeZone = TimeZone.getDefault() // Usar zona horaria local explícitamente
+        return formatter.format(d)
     }
 
     private fun preloadParticipantsThenListen() {
@@ -112,21 +247,81 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             .collection("messages")
             .orderBy("createdAt", Query.Direction.ASCENDING)
             .addSnapshotListener { snap, _ ->
-                val list = snap?.documents?.mapNotNull { d ->
+                val documents = snap?.documents ?: return@addSnapshotListener
+                
+                // Crear lista temporal de mensajes sin displayName
+                val tempMessages = documents.mapNotNull { d ->
                     val senderId = d.getString("senderId") ?: return@mapNotNull null
                     UiMessage(
                         id = d.id,
                         senderId = senderId,
                         senderEmail = usersEmailCache[senderId] ?: (d.getString("senderEmail") ?: senderId),
+                        senderDisplayName = usersDisplayNameCache[senderId] ?: "Cargando...",
                         text = d.getString("text") ?: "",
                         imageBase64 = d.getString("imageBase64"),
                         time = formatTime(d.getTimestamp("createdAt"))
                     )
-                }.orEmpty()
-
-                adapter.submitList(list)
-                if (list.isNotEmpty()) rv.scrollToPosition(list.lastIndex)
+                }
+                
+                // Cargar displayNames para usuarios que no están en cache
+                val uniqueSenderIds = tempMessages.map { it.senderId }.distinct()
+                var loadedCount = 0
+                val totalToLoad = uniqueSenderIds.count { !usersDisplayNameCache.containsKey(it) }
+                
+                if (totalToLoad == 0) {
+                    // Todos los displayNames ya están cargados
+                    processMessages(tempMessages)
+                } else {
+                    // Cargar displayNames faltantes
+                    uniqueSenderIds.forEach { senderId ->
+                        if (!usersDisplayNameCache.containsKey(senderId)) {
+                            loadUserDisplayName(senderId) { displayName ->
+                                loadedCount++
+                                if (loadedCount == totalToLoad) {
+                                    // Todos los displayNames han sido cargados, actualizar mensajes
+                                    val updatedMessages = tempMessages.map { message ->
+                                        message.copy(senderDisplayName = usersDisplayNameCache[message.senderId] ?: "Usuario")
+                                    }
+                                    processMessages(updatedMessages)
+                                }
+                            }
+                        }
+                    }
+                }
             }
+    }
+    
+    private fun processMessages(messages: List<UiMessage>) {
+        // Detectar nuevos mensajes de otros usuarios para mostrar notificaciones
+        val currentUserId = auth.currentUser?.uid
+        if (messages.size > previousMessageCount && previousMessageCount > 0) {
+            // Hay nuevos mensajes, verificar si son de otros usuarios
+            val newMessages = messages.drop(previousMessageCount)
+            newMessages.forEach { message ->
+                // Solo mostrar notificación si el mensaje no es del usuario actual
+                if (message.senderId != currentUserId) {
+                    val messageText = if (message.text.isNotEmpty()) {
+                        message.text
+                    } else if (message.imageBase64 != null) {
+                        "📷 Imagen"
+                    } else {
+                        "Nuevo mensaje"
+                    }
+                    
+                    // Mostrar notificación local (cuando la app está en primer plano)
+                    NotificationManager.showLocalNotification(
+                        requireContext(),
+                        message.senderDisplayName,
+                        messageText,
+                        chatId
+                    )
+                }
+            }
+        }
+        
+        previousMessageCount = messages.size
+        adapter.submitList(messages)
+        if (messages.isNotEmpty()) rv.scrollToPosition(messages.lastIndex)
     }
 
     private fun sendTextMessage() {
@@ -210,12 +405,23 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     private fun openStream(uri: Uri): InputStream? =
         requireContext().contentResolver.openInputStream(uri)
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Limpiar el listener de presencia
+        presenceRef?.let { ref ->
+            presenceListener?.let { ref.removeEventListener(it) }
+        }
+        presenceRef = null
+        presenceListener = null
+    }
 }
 
 data class UiMessage(
     val id: String,
     val senderId: String,
     val senderEmail: String,
+    val senderDisplayName: String,
     val text: String,
     val imageBase64: String?,
     val time: String

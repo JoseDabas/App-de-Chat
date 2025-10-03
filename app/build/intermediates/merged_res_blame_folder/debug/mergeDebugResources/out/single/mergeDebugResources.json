@@ -60,6 +60,10 @@
         "source": "com.app.chat.app-main-62:/drawable/ic_arrow_back_24.xml"
     },
     {
+        "merged": "com.app.chat.app-debug-60:/drawable_unread_count_background.xml.flat",
+        "source": "com.app.chat.app-main-62:/drawable/unread_count_background.xml"
+    },
+    {
         "merged": "com.app.chat.app-debug-60:/layout_activity_image_viewer.xml.flat",
         "source": "com.app.chat.app-main-62:/layout/activity_image_viewer.xml"
     },
@@ -114,6 +118,14 @@
     {
         "merged": "com.app.chat.app-debug-60:/drawable_ic_notifications.xml.flat",
         "source": "com.app.chat.app-main-62:/drawable/ic_notifications.xml"
+    },
+    {
+        "merged": "com.app.chat.app-debug-60:/drawable_ic_user_circle.xml.flat",
+        "source": "com.app.chat.app-main-62:/drawable/ic_user_circle.xml"
+    },
+    {
+        "merged": "com.app.chat.app-debug-60:/layout_toolbar_chat_user_info.xml.flat",
+        "source": "com.app.chat.app-main-62:/layout/toolbar_chat_user_info.xml"
     },
     {
         "merged": "com.app.chat.app-debug-60:/layout_activity_main.xml.flat",
