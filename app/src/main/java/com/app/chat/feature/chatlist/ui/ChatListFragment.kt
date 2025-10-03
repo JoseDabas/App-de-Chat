@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.chat.R
 import com.app.chat.core.PresenceManager
+import com.app.chat.core.session.SessionPrefs
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -69,6 +70,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         ivLogout?.setOnClickListener {
             PresenceManager.goOffline()
             FirebaseAuth.getInstance().signOut()
+            SessionPrefs.clear(requireContext())
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.chatListFragment, true)
                 .build()

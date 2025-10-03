@@ -1,1 +1,0 @@
-C:\Users\Usuario\StudioProjects\App-de-Chat\app\build\intermediates\compiled_navigation_res\debug\compileDebugNavigationResources\navigation_nav_graph.xml.flat 

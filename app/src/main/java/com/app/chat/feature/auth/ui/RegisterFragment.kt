@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.app.chat.R
+import com.app.chat.core.session.SessionPrefs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Locale
@@ -47,6 +48,8 @@ class RegisterFragment : Fragment() {
                 .addOnCompleteListener { task ->
                     btnRegister.isEnabled = true
                     if (task.isSuccessful) {
+                        // Marcar sesión como activa
+                        SessionPrefs.markLoggedNow(requireContext())
                         seedMyUserDoc(
                             onDone = {
                                 val navOptions = NavOptions.Builder()
