@@ -19,7 +19,6 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            android:id="@+id/tvHeaderTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,16 +27,15 @@
             android:textStyle="bold"
             android:textColor="@android:color/black" />
 
-        <!-- NUEVO: botón de Logout en el header -->
-        <ImageButton
-            android:id="@+id/btnLogout"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+        <!-- Logout (nuevo, arriba-derecha) -->
+        <ImageView
+            android:id="@+id/ivLogout"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="4dp"
             android:contentDescription="@string/logout"
             android:src="@drawable/ic_logout"
-            android:tint="@android:color/black" />
-
+            android:background="?attr/selectableItemBackgroundBorderless" />
     </LinearLayout>
 
     <!-- Search Bar -->
@@ -70,7 +68,6 @@
             android:hint="Search chats"
             android:textColorHint="#999999"
             android:textSize="16sp" />
-
     </LinearLayout>
 
     <!-- Chat List -->
@@ -127,7 +124,6 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_chat"
                 android:tint="@android:color/white" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -146,9 +142,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_person"
                 android:tint="@android:color/white" />
-
         </LinearLayout>
-
     </LinearLayout>
 
     <!-- Floating Action Button -->
@@ -167,7 +161,7 @@
         app:fabSize="normal"
         app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
 
-    <!-- Context Menu (initially hidden) -->
+    <!-- Context Menu (initialmente oculto) -->
     <LinearLayout
         android:id="@+id/context_menu"
         android:layout_width="120dp"
@@ -240,7 +234,6 @@
             android:textColor="@android:color/black"
             android:textSize="14sp"
             android:background="?android:attr/selectableItemBackground" />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3233,7 +3233,6 @@ int id browser_actions_menu_view 0x7f080069
 int id btnBackReg 0x7f08006a
 int id btnGoToRegister 0x7f08006b
 int id btnLogin 0x7f08006c
-int id btnLogout 0x7f08006d
 int id btnMessages 0x7f08006e
 int id btnProfile 0x7f08006f
 int id btnRegister 0x7f080070
@@ -3365,6 +3364,7 @@ int id inward 0x7f0800ed
 int id is_pooling_container_tag 0x7f0800ee
 int id italic 0x7f0800ef
 int id item_touch_helper_previous_elevation 0x7f0800f0
+int id ivLogout 0x7f080210
 int id jumpToEnd 0x7f0800f1
 int id jumpToStart 0x7f0800f2
 int id labeled 0x7f0800f3
@@ -3624,10 +3624,11 @@ int id transition_position 0x7f0801f0
 int id transition_scene_layoutid_cache 0x7f0801f1
 int id transition_transform 0x7f0801f2
 int id triangle 0x7f0801f3
+int id tvEmail 0x7f08020e
 int id tvEmpty 0x7f0801f4
-int id tvHeaderTitle 0x7f0801f5
 int id tvMsgMine 0x7f0801f6
 int id tvMsgOther 0x7f0801f7
+int id tvPresence 0x7f08020f
 int id tvSubtitle 0x7f0801f8
 int id tvTitle 0x7f0801f9
 int id unchecked 0x7f0801fa
@@ -3793,6 +3794,7 @@ int layout fragment_welcome 0x7f0b0033
 int layout ime_base_split_test_activity 0x7f0b0034
 int layout ime_secondary_split_test_activity 0x7f0b0035
 int layout item_chat 0x7f0b0036
+int layout item_chat_row 0x7f0b0076
 int layout item_message_mine 0x7f0b0037
 int layout item_message_other 0x7f0b0038
 int layout m3_alert_dialog 0x7f0b0039
@@ -4056,6 +4058,7 @@ int string path_password_eye_mask_strike_through 0x7f1100c0
 int string path_password_eye_mask_visible 0x7f1100c1
 int string path_password_strike_through 0x7f1100c2
 int string project_id 0x7f1100c3
+int string rtdb_url 0x7f1100cc
 int string search_menu_title 0x7f1100c4
 int string searchbar_scrolling_view_behavior 0x7f1100c5
 int string searchview_clear_text_content_description 0x7f1100c6

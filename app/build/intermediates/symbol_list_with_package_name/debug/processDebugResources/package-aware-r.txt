@@ -3234,7 +3234,6 @@ id browser_actions_menu_view
 id btnBackReg
 id btnGoToRegister
 id btnLogin
-id btnLogout
 id btnMessages
 id btnProfile
 id btnRegister
@@ -3366,6 +3365,7 @@ id inward
 id is_pooling_container_tag
 id italic
 id item_touch_helper_previous_elevation
+id ivLogout
 id jumpToEnd
 id jumpToStart
 id labeled
@@ -3625,10 +3625,11 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
+id tvEmail
 id tvEmpty
-id tvHeaderTitle
 id tvMsgMine
 id tvMsgOther
+id tvPresence
 id tvSubtitle
 id tvTitle
 id unchecked
@@ -3794,6 +3795,7 @@ layout fragment_welcome
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout item_chat
+layout item_chat_row
 layout item_message_mine
 layout item_message_other
 layout m3_alert_dialog
@@ -4057,6 +4059,7 @@ string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
 string project_id
+string rtdb_url
 string search_menu_title
 string searchbar_scrolling_view_behavior
 string searchview_clear_text_content_description

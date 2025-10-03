@@ -18,6 +18,7 @@
     <string name="google_storage_bucket" translatable="false">chat-basico-6147f.firebasestorage.app</string>
     <string name="logout">Logout</string>
     <string name="project_id" translatable="false">chat-basico-6147f</string>
+    <string name="rtdb_url">https://chat-basico-6147f-default-rtdb.firebaseio.com</string>
     <string name="title_chats">Chats</string>
     <style name="Theme.AppChat" parent="Theme.Material3.Light.NoActionBar"/>
 </resources>

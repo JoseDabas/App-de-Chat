@@ -40,7 +40,6 @@ id bottomNavigation
 id btnBackReg
 id btnGoToRegister
 id btnLogin
-id btnLogout
 id btnMessages
 id btnProfile
 id btnRegister
@@ -56,6 +55,7 @@ id etPassReg
 id etSearch
 id fab_add
 id header
+id ivLogout
 id loginFragment
 id logo
 id logoContainer
@@ -71,10 +71,11 @@ id rvChats
 id rvMessages
 id searchContainer
 id toolbarChat
+id tvEmail
 id tvEmpty
-id tvHeaderTitle
 id tvMsgMine
 id tvMsgOther
+id tvPresence
 id tvSubtitle
 id tvTitle
 id welcomeFragment
@@ -86,6 +87,7 @@ layout fragment_login
 layout fragment_register
 layout fragment_welcome
 layout item_chat
+layout item_chat_row
 layout item_message_mine
 layout item_message_other
 menu menu_chat_list
@@ -99,5 +101,6 @@ string google_crash_reporting_api_key
 string google_storage_bucket
 string logout
 string project_id
+string rtdb_url
 string title_chats
 style Theme.AppChat

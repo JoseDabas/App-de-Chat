@@ -8,33 +8,46 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.chat.R
-import com.app.chat.core.model.Chat
 
 class ChatAdapter(
-    private val onClick: (Chat) -> Unit
-) : ListAdapter<Chat, ChatAdapter.VH>(DIFF) {
-
-    companion object {
-        private val DIFF = object : DiffUtil.ItemCallback<Chat>() {
-            override fun areItemsTheSame(oldItem: Chat, newItem: Chat) = oldItem.id == newItem.id
-            override fun areContentsTheSame(oldItem: Chat, newItem: Chat) = oldItem == newItem
-        }
-    }
-
-    inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
-        private val tvSubtitle: TextView = itemView.findViewById(R.id.tvSubtitle)
-        fun bind(chat: Chat) {
-            tvTitle.text = chat.title.ifBlank { "Sin nombre" }
-            tvSubtitle.text = chat.lastMessage
-            itemView.setOnClickListener { onClick(chat) }
-        }
-    }
+    private val onClick: (UiChatRow) -> Unit
+) : ListAdapter<UiChatRow, ChatAdapter.VH>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_chat, parent, false)
-        return VH(v)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_row, parent, false)
+        return VH(v, onClick)
     }
 
-    override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    class VH(itemView: View, private val onClick: (UiChatRow) -> Unit) : RecyclerView.ViewHolder(itemView) {
+        private val tvEmail: TextView = itemView.findViewById(R.id.tvEmail)
+        private val tvPresence: TextView = itemView.findViewById(R.id.tvPresence)
+
+        private var current: UiChatRow? = null
+
+        init {
+            itemView.setOnClickListener {
+                current?.let(onClick)
+            }
+        }
+
+        fun bind(row: UiChatRow) {
+            current = row
+            tvEmail.text = row.otherEmail
+            tvPresence.text = row.presence
+        }
+    }
+
+    companion object {
+        private val DIFF = object : DiffUtil.ItemCallback<UiChatRow>() {
+            override fun areItemsTheSame(oldItem: UiChatRow, newItem: UiChatRow): Boolean =
+                oldItem.chatId == newItem.chatId
+
+            override fun areContentsTheSame(oldItem: UiChatRow, newItem: UiChatRow): Boolean =
+                oldItem == newItem
+        }
+    }
 }
