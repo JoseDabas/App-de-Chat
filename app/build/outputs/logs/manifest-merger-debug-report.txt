@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:2:1-24:12
-INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:2:1-24:12
-INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:2:1-24:12
-INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:2:1-24:12
+ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:2:1-29:12
 MERGED from [androidx.databinding:viewbinding:8.13.0] C:\Users\Usuario\.gradle\caches\8.13\transforms\7038dced135928748a250f580d4c98d6\transformed\viewbinding-8.13.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigation:navigation-common:2.7.7] C:\Users\Usuario\.gradle\caches\8.13\transforms\7d80ea164b6aa3b1fcbc2c3506396837\transformed\navigation-common-2.7.7\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-ktx:2.7.7] C:\Users\Usuario\.gradle\caches\8.13\transforms\d4cf6f2e77a098a87b8c5cb6fec7c219\transformed\navigation-common-ktx-2.7.7\AndroidManifest.xml:2:1-7:12
@@ -189,8 +189,8 @@ MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\Usuario\.gradle\caches\8.13\t
 	android:name
 		ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:6:20-74
 application
-ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:8:3-23:17
-INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:8:3-23:17
+ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:8:3-28:17
+INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:8:3-28:17
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Usuario\.gradle\caches\8.13\transforms\e7bc6f370c790f811b7970ce07f63002\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Usuario\.gradle\caches\8.13\transforms\e7bc6f370c790f811b7970ce07f63002\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\Usuario\.gradle\caches\8.13\transforms\30efa8c16fdc648ee0bb7373ade927a4\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -313,6 +313,14 @@ category#android.intent.category.LAUNCHER
 ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:19:9-68
 	android:name
 		ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:19:19-66
+activity#com.app.chat.feature.chat.ui.ImageViewerActivity
+ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:23:5-26:67
+	android:exported
+		ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:25:9-33
+	android:theme
+		ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:26:9-65
+	android:name
+		ADDED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml:24:9-60
 uses-sdk
 INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Usuario\StudioProjects\App-de-Chat\app\src\main\AndroidManifest.xml

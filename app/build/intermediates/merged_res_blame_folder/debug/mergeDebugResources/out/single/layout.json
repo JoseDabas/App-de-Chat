@@ -1,11 +1,7 @@
 [
     {
-        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_welcome.xml",
-        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_welcome.xml"
-    },
-    {
-        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\activity_main.xml",
-        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\activity_main.xml"
+        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/item_message_other.xml",
+        "source": "com.app.chat.app-main-62:/layout/item_message_other.xml"
     },
     {
         "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_chat.xml",
@@ -16,31 +12,43 @@
         "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_message_mine.xml"
     },
     {
-        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/fragment_chat_list.xml",
-        "source": "com.app.chat.app-main-62:/layout/fragment_chat_list.xml"
+        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/item_message_mine.xml",
+        "source": "com.app.chat.app-main-62:/layout/item_message_mine.xml"
     },
     {
         "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\item_chat.xml",
         "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_chat.xml"
     },
     {
-        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_login.xml",
-        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_login.xml"
-    },
-    {
         "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_chat_list.xml",
         "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_chat_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_welcome.xml",
+        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_welcome.xml"
+    },
+    {
+        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/activity_image_viewer.xml",
+        "source": "com.app.chat.app-main-62:/layout/activity_image_viewer.xml"
+    },
+    {
+        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_login.xml",
+        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_login.xml"
     },
     {
         "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_register.xml",
         "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_register.xml"
     },
     {
-        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\item_chat_row.xml",
-        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_chat_row.xml"
-    },
-    {
         "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\item_message_other.xml",
         "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_message_other.xml"
+    },
+    {
+        "merged": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\item_chat_row.xml",
+        "source": "C:\\Users\\Usuario\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_chat_row.xml"
     }
 ]

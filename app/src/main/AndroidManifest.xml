@@ -20,5 +20,10 @@
       </intent-filter>
     </activity>
 
+    <activity
+        android:name=".feature.chat.ui.ImageViewerActivity"
+        android:exported="false"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
   </application>
 </manifest>

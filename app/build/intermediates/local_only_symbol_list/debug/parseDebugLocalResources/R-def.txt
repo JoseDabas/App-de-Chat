@@ -38,7 +38,9 @@ id action_welcome_to_login
 id action_welcome_to_register
 id bottomNavigation
 id btnBackReg
+id btnClose
 id btnGoToRegister
+id btnImage
 id btnLogin
 id btnMessages
 id btnProfile
@@ -55,6 +57,9 @@ id etPassReg
 id etSearch
 id fab_add
 id header
+id ivFull
+id ivImageMine
+id ivImageOther
 id ivLogout
 id loginFragment
 id logo
@@ -67,6 +72,7 @@ id menu_team
 id nav_graph
 id nav_host_fragment
 id registerFragment
+id root
 id rvChats
 id rvMessages
 id searchContainer
@@ -80,6 +86,7 @@ id tvSubtitle
 id tvTitle
 id welcomeFragment
 id welcomeText
+layout activity_image_viewer
 layout activity_main
 layout fragment_chat
 layout fragment_chat_list

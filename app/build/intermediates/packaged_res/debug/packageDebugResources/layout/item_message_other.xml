@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingVertical="4dp">
 
     <TextView
@@ -13,4 +14,15 @@
         android:padding="10dp"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
-</FrameLayout>
+
+    <ImageView
+        android:id="@+id/ivImageOther"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_gravity="start"
+        android:contentDescription="@string/app_name"
+        android:visibility="gone"
+        android:layout_marginTop="4dp" />
+
+</LinearLayout>

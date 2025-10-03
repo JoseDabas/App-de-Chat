@@ -12,6 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:backgroundTint="@android:color/white"
         app:titleTextColor="@color/black"
+        app:navigationIcon="@drawable/ic_arrow_back_24"
         app:navigationIconTint="@color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,16 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/button_turquoise_outline"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:tint="@color/turquoise_blue"
+            android:contentDescription="@string/app_name"
+            android:layout_marginEnd="8dp" />
 
         <EditText
             android:id="@+id/etMessage"

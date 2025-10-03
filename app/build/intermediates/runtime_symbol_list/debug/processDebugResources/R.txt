@@ -3231,7 +3231,9 @@ int id browser_actions_menu_item_text 0x7f080067
 int id browser_actions_menu_items 0x7f080068
 int id browser_actions_menu_view 0x7f080069
 int id btnBackReg 0x7f08006a
+int id btnClose 0x7f080214
 int id btnGoToRegister 0x7f08006b
+int id btnImage 0x7f080211
 int id btnLogin 0x7f08006c
 int id btnMessages 0x7f08006e
 int id btnProfile 0x7f08006f
@@ -3364,6 +3366,9 @@ int id inward 0x7f0800ed
 int id is_pooling_container_tag 0x7f0800ee
 int id italic 0x7f0800ef
 int id item_touch_helper_previous_elevation 0x7f0800f0
+int id ivFull 0x7f080215
+int id ivImageMine 0x7f080212
+int id ivImageOther 0x7f080213
 int id ivLogout 0x7f080210
 int id jumpToEnd 0x7f0800f1
 int id jumpToStart 0x7f0800f2
@@ -3511,6 +3516,7 @@ int id right 0x7f08017f
 int id rightToLeft 0x7f080180
 int id right_icon 0x7f080181
 int id right_side 0x7f080182
+int id root 0x7f080216
 int id rounded 0x7f080183
 int id row_index_key 0x7f080184
 int id rtl 0x7f080185
@@ -3767,6 +3773,7 @@ int layout abc_search_dropdown_item_icons_2line 0x7f0b0018
 int layout abc_search_view 0x7f0b0019
 int layout abc_select_dialog_material 0x7f0b001a
 int layout abc_tooltip 0x7f0b001b
+int layout activity_image_viewer 0x7f0b0077
 int layout activity_main 0x7f0b001c
 int layout browser_actions_context_menu_page 0x7f0b001d
 int layout browser_actions_context_menu_row 0x7f0b001e

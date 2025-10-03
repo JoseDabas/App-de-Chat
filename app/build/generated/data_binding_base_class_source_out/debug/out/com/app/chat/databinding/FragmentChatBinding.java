@@ -23,6 +23,9 @@ public final class FragmentChatBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
+  public final ImageButton btnImage;
+
+  @NonNull
   public final ImageButton btnSend;
 
   @NonNull
@@ -34,10 +37,11 @@ public final class FragmentChatBinding implements ViewBinding {
   @NonNull
   public final MaterialToolbar toolbarChat;
 
-  private FragmentChatBinding(@NonNull LinearLayout rootView, @NonNull ImageButton btnSend,
-      @NonNull EditText etMessage, @NonNull RecyclerView rvMessages,
+  private FragmentChatBinding(@NonNull LinearLayout rootView, @NonNull ImageButton btnImage,
+      @NonNull ImageButton btnSend, @NonNull EditText etMessage, @NonNull RecyclerView rvMessages,
       @NonNull MaterialToolbar toolbarChat) {
     this.rootView = rootView;
+    this.btnImage = btnImage;
     this.btnSend = btnSend;
     this.etMessage = etMessage;
     this.rvMessages = rvMessages;
@@ -71,6 +75,12 @@ public final class FragmentChatBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnImage;
+      ImageButton btnImage = ViewBindings.findChildViewById(rootView, id);
+      if (btnImage == null) {
+        break missingId;
+      }
+
       id = R.id.btnSend;
       ImageButton btnSend = ViewBindings.findChildViewById(rootView, id);
       if (btnSend == null) {
@@ -95,8 +105,8 @@ public final class FragmentChatBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentChatBinding((LinearLayout) rootView, btnSend, etMessage, rvMessages,
-          toolbarChat);
+      return new FragmentChatBinding((LinearLayout) rootView, btnImage, btnSend, etMessage,
+          rvMessages, toolbarChat);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -3232,7 +3232,9 @@ id browser_actions_menu_item_text
 id browser_actions_menu_items
 id browser_actions_menu_view
 id btnBackReg
+id btnClose
 id btnGoToRegister
+id btnImage
 id btnLogin
 id btnMessages
 id btnProfile
@@ -3365,6 +3367,9 @@ id inward
 id is_pooling_container_tag
 id italic
 id item_touch_helper_previous_elevation
+id ivFull
+id ivImageMine
+id ivImageOther
 id ivLogout
 id jumpToEnd
 id jumpToStart
@@ -3512,6 +3517,7 @@ id right
 id rightToLeft
 id right_icon
 id right_side
+id root
 id rounded
 id row_index_key
 id rtl
@@ -3768,6 +3774,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_image_viewer
 layout activity_main
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row

@@ -4,7 +4,8 @@ package com.app.chat.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,19 +18,24 @@ import java.lang.String;
 
 public final class ItemMessageMineBinding implements ViewBinding {
   @NonNull
-  private final FrameLayout rootView;
+  private final LinearLayout rootView;
+
+  @NonNull
+  public final ImageView ivImageMine;
 
   @NonNull
   public final TextView tvMsgMine;
 
-  private ItemMessageMineBinding(@NonNull FrameLayout rootView, @NonNull TextView tvMsgMine) {
+  private ItemMessageMineBinding(@NonNull LinearLayout rootView, @NonNull ImageView ivImageMine,
+      @NonNull TextView tvMsgMine) {
     this.rootView = rootView;
+    this.ivImageMine = ivImageMine;
     this.tvMsgMine = tvMsgMine;
   }
 
   @Override
   @NonNull
-  public FrameLayout getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -54,13 +60,19 @@ public final class ItemMessageMineBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.ivImageMine;
+      ImageView ivImageMine = ViewBindings.findChildViewById(rootView, id);
+      if (ivImageMine == null) {
+        break missingId;
+      }
+
       id = R.id.tvMsgMine;
       TextView tvMsgMine = ViewBindings.findChildViewById(rootView, id);
       if (tvMsgMine == null) {
         break missingId;
       }
 
-      return new ItemMessageMineBinding((FrameLayout) rootView, tvMsgMine);
+      return new ItemMessageMineBinding((LinearLayout) rootView, ivImageMine, tvMsgMine);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
