@@ -40,12 +40,16 @@
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\menu\\menu_chat_list.xml"
     },
     {
-        "merged": "com.app.chat.app-debug-60:/layout_fragment_chat_list.xml.flat",
-        "source": "com.app.chat.app-main-62:/layout/fragment_chat_list.xml"
+        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_new_chat_modal_background.xml.flat",
+        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\new_chat_modal_background.xml"
     },
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_ic_user_circle.xml.flat",
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\ic_user_circle.xml"
+    },
+    {
+        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_input_field_background.xml.flat",
+        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\input_field_background.xml"
     },
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_fragment_login.xml.flat",
@@ -62,10 +66,6 @@
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_bg_bubble_other.xml.flat",
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\bg_bubble_other.xml"
-    },
-    {
-        "merged": "com.app.chat.app-debug-60:/drawable_input_field_background.xml.flat",
-        "source": "com.app.chat.app-main-62:/drawable/input_field_background.xml"
     },
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_talknow.png.flat",
@@ -120,16 +120,20 @@
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\unread_count_background.xml"
     },
     {
+        "merged": "com.app.chat.app-debug-60:/layout_fragment_login.xml.flat",
+        "source": "com.app.chat.app-main-62:/layout/fragment_login.xml"
+    },
+    {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_ic_add.xml.flat",
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\ic_add.xml"
     },
     {
-        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_item_message_mine.xml.flat",
-        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_message_mine.xml"
+        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_modal_button_primary.xml.flat",
+        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\modal_button_primary.xml"
     },
     {
-        "merged": "com.app.chat.app-debug-60:/drawable_modal_button_primary.xml.flat",
-        "source": "com.app.chat.app-main-62:/drawable/modal_button_primary.xml"
+        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_item_message_mine.xml.flat",
+        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_message_mine.xml"
     },
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_ic_chat.xml.flat",
@@ -144,12 +148,8 @@
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\ic_search.xml"
     },
     {
-        "merged": "com.app.chat.app-debug-60:/drawable_modal_button_secondary.xml.flat",
-        "source": "com.app.chat.app-main-62:/drawable/modal_button_secondary.xml"
-    },
-    {
-        "merged": "com.app.chat.app-debug-60:/drawable_new_chat_modal_background.xml.flat",
-        "source": "com.app.chat.app-main-62:/drawable/new_chat_modal_background.xml"
+        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_modal_button_secondary.xml.flat",
+        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\modal_button_secondary.xml"
     },
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_toolbar_chat_user_info.xml.flat",

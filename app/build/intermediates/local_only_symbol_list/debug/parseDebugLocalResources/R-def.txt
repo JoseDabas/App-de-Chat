@@ -54,7 +54,6 @@ id btnGoToRegister
 id btnImage
 id btnLogin
 id btnMessages
-id btnProfile
 id btnRegister
 id btnSend
 id chatFragment

@@ -37,9 +37,6 @@ public final class FragmentChatListBinding implements ViewBinding {
   public final LinearLayout btnMessages;
 
   @NonNull
-  public final LinearLayout btnProfile;
-
-  @NonNull
   public final LinearLayout contextMenu;
 
   @NonNull
@@ -81,18 +78,17 @@ public final class FragmentChatListBinding implements ViewBinding {
   private FragmentChatListBinding(@NonNull ConstraintLayout rootView,
       @NonNull LinearLayout bottomNavigation, @NonNull TextView btnCancelNewChat,
       @NonNull TextView btnCreateNewChat, @NonNull LinearLayout btnMessages,
-      @NonNull LinearLayout btnProfile, @NonNull LinearLayout contextMenu,
-      @NonNull EditText etNewChatEmail, @NonNull EditText etSearch,
-      @NonNull FloatingActionButton fabAdd, @NonNull LinearLayout header,
-      @NonNull ImageView ivLogout, @NonNull LinearLayout menuChat, @NonNull LinearLayout menuGroup,
-      @NonNull View modalOverlay, @NonNull LinearLayout newChatModal, @NonNull RecyclerView rvChats,
+      @NonNull LinearLayout contextMenu, @NonNull EditText etNewChatEmail,
+      @NonNull EditText etSearch, @NonNull FloatingActionButton fabAdd,
+      @NonNull LinearLayout header, @NonNull ImageView ivLogout, @NonNull LinearLayout menuChat,
+      @NonNull LinearLayout menuGroup, @NonNull View modalOverlay,
+      @NonNull LinearLayout newChatModal, @NonNull RecyclerView rvChats,
       @NonNull LinearLayout searchContainer, @NonNull TextView tvEmpty) {
     this.rootView = rootView;
     this.bottomNavigation = bottomNavigation;
     this.btnCancelNewChat = btnCancelNewChat;
     this.btnCreateNewChat = btnCreateNewChat;
     this.btnMessages = btnMessages;
-    this.btnProfile = btnProfile;
     this.contextMenu = contextMenu;
     this.etNewChatEmail = etNewChatEmail;
     this.etSearch = etSearch;
@@ -156,12 +152,6 @@ public final class FragmentChatListBinding implements ViewBinding {
       id = R.id.btnMessages;
       LinearLayout btnMessages = ViewBindings.findChildViewById(rootView, id);
       if (btnMessages == null) {
-        break missingId;
-      }
-
-      id = R.id.btnProfile;
-      LinearLayout btnProfile = ViewBindings.findChildViewById(rootView, id);
-      if (btnProfile == null) {
         break missingId;
       }
 
@@ -244,9 +234,9 @@ public final class FragmentChatListBinding implements ViewBinding {
       }
 
       return new FragmentChatListBinding((ConstraintLayout) rootView, bottomNavigation,
-          btnCancelNewChat, btnCreateNewChat, btnMessages, btnProfile, contextMenu, etNewChatEmail,
-          etSearch, fabAdd, header, ivLogout, menuChat, menuGroup, modalOverlay, newChatModal,
-          rvChats, searchContainer, tvEmpty);
+          btnCancelNewChat, btnCreateNewChat, btnMessages, contextMenu, etNewChatEmail, etSearch,
+          fabAdd, header, ivLogout, menuChat, menuGroup, modalOverlay, newChatModal, rvChats,
+          searchContainer, tvEmpty);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

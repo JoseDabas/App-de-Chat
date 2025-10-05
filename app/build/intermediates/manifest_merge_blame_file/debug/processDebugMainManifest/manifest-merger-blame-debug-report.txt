@@ -65,8 +65,8 @@
 35-->[androidx.core:core:1.13.1] C:\Users\josea\.gradle\caches\8.13\transforms\b50ba8976e0d9053cff34d499fedf679\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 36        android:debuggable="true"
 37        android:extractNativeLibs="false"
-38        android:icon="@android:drawable/sym_def_app_icon"
-38-->C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:16:7-56
+38        android:icon="@drawable/talknow"
+38-->C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:16:7-39
 39        android:label="@string/app_name"
 39-->C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:15:7-39
 40        android:testOnly="true"

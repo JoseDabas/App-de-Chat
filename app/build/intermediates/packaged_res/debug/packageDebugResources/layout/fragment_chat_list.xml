@@ -98,8 +98,8 @@
     <!-- Bottom Navigation -->
     <LinearLayout
         android:id="@+id/bottomNavigation"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
+        android:layout_width="160dp"
+        android:layout_height="56dp"
         android:background="@drawable/bottom_nav_background"
         android:orientation="horizontal"
         android:gravity="center"
@@ -110,9 +110,8 @@
 
         <LinearLayout
             android:id="@+id/btnMessages"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
             android:background="?attr/selectableItemBackground"
@@ -120,27 +119,9 @@
             android:focusable="true">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_chat"
-                android:tint="@android:color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/btnProfile"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_person"
                 android:tint="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
