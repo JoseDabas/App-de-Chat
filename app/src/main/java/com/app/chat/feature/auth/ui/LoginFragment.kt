@@ -79,7 +79,7 @@ class LoginFragment : Fragment() {
         }
 
         btnGoToRegister.setOnClickListener {
-            findNavController().navigate(R.id.registerFragment)
+            findNavController().navigate(R.id.welcomeFragment)
         }
     }
 

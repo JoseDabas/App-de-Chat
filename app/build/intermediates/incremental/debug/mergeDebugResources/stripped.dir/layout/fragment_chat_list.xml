@@ -86,7 +86,7 @@
         android:id="@+id/tvEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No chats yet"
+        android:text="No hay chats"
         android:textSize="16sp"
         android:textColor="#999999"
         android:visibility="gone"
@@ -161,127 +161,204 @@
         app:fabSize="normal"
         app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
 
-    <!-- Context Menu (initialmente oculto) -->
+    <!-- Modal para opciones de Chat y Grupo -->
     <LinearLayout
-        android:id="@+id/context_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="180dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="140dp"
-        android:background="@drawable/context_menu_background"
+        android:id="@+id/contextMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/modal_background"
+        android:gravity="bottom|end"
         android:orientation="vertical"
-        android:padding="12dp"
         android:visibility="gone"
-        android:elevation="8dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Título del menú -->
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/modal_content_background"
+            android:orientation="vertical"
+            android:layout_marginBottom="80dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="8dp">
+
+            <LinearLayout
+                android:id="@+id/menuChat"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_chat"
+                    android:layout_marginEnd="16dp"
+                    android:tint="#666666" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Chat"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:fontFamily="sans-serif" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F0F0F0"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp" />
+
+            <LinearLayout
+                android:id="@+id/menuGroup"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_group"
+                    android:layout_marginEnd="16dp"
+                    android:tint="#666666" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Group"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:fontFamily="sans-serif" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Modal para crear nuevo chat -->
+    <LinearLayout
+        android:id="@+id/newChatModal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/new_chat_modal_background"
+        android:elevation="16dp"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Título del modal -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nuevo Chat"
-            android:textColor="@color/turquoise_blue"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:paddingBottom="8dp" />
+            android:text="Nuevo Chat"
+            android:textColor="#2C2C2C"
+            android:textSize="24sp" />
 
-        <!-- Línea divisoria -->
-        <View
+        <!-- Subtítulo -->
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="8dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="Ingresa el correo electrónico del usuario"
+            android:textColor="#6C757D"
+            android:textSize="16sp" />
 
-        <!-- Opción Chat Individual -->
+        <!-- Campo de entrada de correo -->
+        <EditText
+            android:id="@+id/etNewChatEmail"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/input_field_background"
+            android:fontFamily="sans-serif"
+            android:hint="correo@ejemplo.com"
+            android:inputType="textEmailAddress"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColor="#2C2C2C"
+            android:textColorHint="#ADB5BD"
+            android:textSize="16sp" />
+
+        <!-- Botones -->
         <LinearLayout
-            android:id="@+id/menu_chat"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_marginBottom="4dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_person"
-                android:tint="@color/turquoise_blue"
-                android:layout_marginEnd="12dp" />
-
-            <LinearLayout
+            <!-- Botón Cancelar -->
+            <TextView
+                android:id="@+id/btnCancelNewChat"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:background="@drawable/modal_button_secondary"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Cancelar"
+                android:textColor="#6C757D"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chat Individual"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Conversa con una persona"
-                    android:textColor="#666666"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Opción Grupo -->
-        <LinearLayout
-            android:id="@+id/menu_group"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:background="?android:attr/selectableItemBackground">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_chat"
-                android:tint="@color/turquoise_blue"
-                android:layout_marginEnd="12dp" />
-
-            <LinearLayout
+            <!-- Botón Crear -->
+            <TextView
+                android:id="@+id/btnCreateNewChat"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Grupo"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Crea un chat grupal"
-                    android:textColor="#666666"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
-
+                android:background="@drawable/modal_button_primary"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Crear"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </LinearLayout>
-
     </LinearLayout>
+
+    <!-- Overlay para cerrar el modal -->
+    <View
+        android:id="@+id/modalOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,8 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.text.InputType
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
 import android.widget.EditText
@@ -52,6 +54,24 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
 
     // Cache de filas por chatId
     private val rowsByChatId = linkedMapOf<String, UiChatRow>()
+    
+    // Lista original de chats para filtrado
+    private val originalChatList = mutableListOf<UiChatRow>()
+    
+    // Referencia al EditText de búsqueda
+    private var searchEditText: EditText? = null
+
+    // Referencias al modal
+    private var contextMenu: LinearLayout? = null
+    private var menuChat: LinearLayout? = null
+    private var menuGroup: LinearLayout? = null
+
+    // Modal de crear chat
+    private var newChatModal: LinearLayout? = null
+    private var modalOverlay: View? = null
+    private var etNewChatEmail: EditText? = null
+    private var btnCreateNewChat: TextView? = null
+    private var btnCancelNewChat: TextView? = null
 
     // ÚNICO listener al nodo raíz /presence
     private var presenceRootRef: DatabaseReference? = null
@@ -63,10 +83,20 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         val rv = view.findViewById<RecyclerView>(R.id.rvChats)
         val tvEmpty = view.findViewById<View>(R.id.tvEmpty)
         val fab = view.findViewById<FloatingActionButton>(R.id.fab_add)
-        val contextMenu = view.findViewById<LinearLayout>(R.id.context_menu)
-        val menuChat = view.findViewById<TextView>(R.id.menu_chat)
-        val menuGroup = view.findViewById<TextView>(R.id.menu_group)
         val ivLogout = view.findViewById<ImageView>(R.id.ivLogout)
+        searchEditText = view.findViewById<EditText>(R.id.etSearch)
+        
+        // Inicializar referencias del modal
+        contextMenu = view.findViewById<LinearLayout>(R.id.contextMenu)
+        menuChat = view.findViewById<LinearLayout>(R.id.menuChat)
+        menuGroup = view.findViewById<LinearLayout>(R.id.menuGroup)
+
+        // Inicializar referencias del nuevo modal de crear chat
+        newChatModal = view.findViewById<LinearLayout>(R.id.newChatModal)
+        modalOverlay = view.findViewById<View>(R.id.modalOverlay)
+        etNewChatEmail = view.findViewById<EditText>(R.id.etNewChatEmail)
+        btnCreateNewChat = view.findViewById<TextView>(R.id.btnCreateNewChat)
+        btnCancelNewChat = view.findViewById<TextView>(R.id.btnCancelNewChat)
 
         ivLogout?.setOnClickListener {
             PresenceManager.goOffline()
@@ -92,6 +122,9 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         }
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
+
+        // Configurar búsqueda
+        setupSearchFunctionality(tvEmpty)
 
         seedMyUserDoc()
         vm.load()
@@ -137,26 +170,52 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
                         }
                 }
 
-                // Enviamos la lista base
-                adapter.submitList(rowsByChatId.values.map { it.copy() })
-                tvEmpty.visibility = if (rowsByChatId.isEmpty()) View.VISIBLE else View.GONE
+                // Actualizamos la lista original y enviamos la lista base
+                originalChatList.clear()
+                originalChatList.addAll(rowsByChatId.values.map { it.copy() })
+                updateDisplayedList(tvEmpty)
 
                 // 2) (Re)conectamos el listener de RTDB raíz para presencias
                 attachPresenceRootListener()
             }
         }
 
-        fab.setOnClickListener { contextMenu.isVisible = !contextMenu.isVisible }
-        view.setOnClickListener { v ->
-            if (v.id != R.id.context_menu && contextMenu.isVisible) contextMenu.isVisible = false
+        fab.setOnClickListener { 
+            contextMenu?.visibility = View.VISIBLE
         }
-        menuChat.setOnClickListener {
-            contextMenu.isVisible = false
-            showNewChatDialog()
+        
+        // Click listener para cerrar el modal al tocar el fondo
+        contextMenu?.setOnClickListener {
+            contextMenu?.visibility = View.GONE
         }
-        menuGroup.setOnClickListener {
-            contextMenu.isVisible = false
-            Toast.makeText(requireContext(), "Group (pendiente)", Toast.LENGTH_SHORT).show()
+        
+        // Click listener para la opción de Chat
+        menuChat?.setOnClickListener {
+            contextMenu?.visibility = View.GONE
+            showNewChatModal()
+        }
+        
+        // Click listener para la opción de Grupo
+        menuGroup?.setOnClickListener {
+            contextMenu?.visibility = View.GONE
+            showNewGroupDialog()
+        }
+
+        // Click listeners para el nuevo modal de crear chat
+        btnCreateNewChat?.setOnClickListener {
+            val email = etNewChatEmail?.text?.toString()?.trim().orEmpty()
+            if (email.isNotEmpty()) {
+                hideNewChatModal()
+                createOrOpenDirectChatByEmail(email)
+            }
+        }
+
+        btnCancelNewChat?.setOnClickListener {
+            hideNewChatModal()
+        }
+
+        modalOverlay?.setOnClickListener {
+            hideNewChatModal()
         }
     }
 
@@ -218,8 +277,22 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
 
     private fun updateRow(chatId: String, transform: (UiChatRow) -> UiChatRow) {
         val current = rowsByChatId[chatId] ?: return
-        rowsByChatId[chatId] = transform(current)
-        adapter.submitList(rowsByChatId.values.map { it.copy() })
+        val updated = transform(current)
+        rowsByChatId[chatId] = updated
+        
+        // Actualizar también la lista original
+        val index = originalChatList.indexOfFirst { it.chatId == chatId }
+        if (index != -1) {
+            originalChatList[index] = updated.copy()
+        }
+        
+        // Aplicar filtro actual si existe
+        val currentQuery = searchEditText?.text?.toString() ?: ""
+        if (currentQuery.isNotEmpty()) {
+            filterChats(currentQuery)
+        } else {
+            adapter.submitList(rowsByChatId.values.map { it.copy() })
+        }
     }
 
     override fun onDestroyView() {
@@ -249,6 +322,71 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
             }
             .setNegativeButton("Cancelar") { d, _ -> d.dismiss() }
             .show()
+    }
+
+    // ---------- NUEVO MODAL PARA CREAR CHAT ----------
+    private fun showNewChatModal() {
+        etNewChatEmail?.text?.clear()
+        newChatModal?.visibility = View.VISIBLE
+        modalOverlay?.visibility = View.VISIBLE
+    }
+
+    private fun hideNewChatModal() {
+        newChatModal?.visibility = View.GONE
+        modalOverlay?.visibility = View.GONE
+        etNewChatEmail?.text?.clear()
+    }
+
+    private fun showNewGroupDialog() {
+        val input = EditText(requireContext()).apply {
+            hint = "Nombre del grupo"
+            inputType = InputType.TYPE_CLASS_TEXT
+        }
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Nuevo grupo")
+            .setMessage("Escribe el nombre del grupo:")
+            .setView(input)
+            .setPositiveButton("Crear") { d, _ ->
+                val groupName = input.text?.toString()?.trim().orEmpty()
+                if (groupName.isNotEmpty()) {
+                    createNewGroup(groupName)
+                } else {
+                    Toast.makeText(requireContext(), "El nombre del grupo no puede estar vacío", Toast.LENGTH_SHORT).show()
+                }
+                d.dismiss()
+            }
+            .setNegativeButton("Cancelar") { d, _ -> d.dismiss() }
+            .show()
+    }
+
+    private fun createNewGroup(groupName: String) {
+        val myUid = auth.currentUser?.uid ?: run {
+            Toast.makeText(requireContext(), "Sesión inválida", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val groupId = "group_${System.currentTimeMillis()}_$myUid"
+        val groupData = hashMapOf(
+            "id" to groupId,
+            "title" to groupName,
+            "lastMessage" to "",
+            "participants" to listOf(myUid),
+            "isGroup" to true,
+            "createdBy" to myUid,
+            "createdAt" to System.currentTimeMillis()
+        )
+
+        db.collection("chats").document(groupId)
+            .set(groupData)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Grupo creado: $groupName", Toast.LENGTH_SHORT).show()
+                vm.load()
+                openChat(groupId)
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "No se pudo crear el grupo", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun createOrOpenDirectChatByEmail(emailRaw: String) {
@@ -376,8 +514,54 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
                             lastMessageTime = formattedTime
                         )
                     }
+            }
+        }
+    }
+
+    private fun setupSearchFunctionality(tvEmpty: View) {
+        searchEditText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            
+            override fun afterTextChanged(s: Editable?) {
+                val query = s?.toString()?.trim() ?: ""
+                if (query.isEmpty()) {
+                    // Mostrar todos los chats
+                    adapter.submitList(originalChatList.map { it.copy() })
+                    tvEmpty.visibility = if (originalChatList.isEmpty()) View.VISIBLE else View.GONE
+                } else {
+                    // Filtrar chats
+                    filterChats(query)
+                    updateDisplayedList(tvEmpty)
                 }
             }
+        })
+    }
+
+    private fun filterChats(query: String) {
+        val filteredList = originalChatList.filter { chat ->
+            chat.otherDisplayName.contains(query, ignoreCase = true) ||
+            chat.otherEmail.contains(query, ignoreCase = true) ||
+            chat.lastMessage.contains(query, ignoreCase = true)
+        }
+        adapter.submitList(filteredList)
+    }
+
+    private fun updateDisplayedList(tvEmpty: View) {
+        val currentQuery = searchEditText?.text?.toString()?.trim() ?: ""
+        if (currentQuery.isEmpty()) {
+            adapter.submitList(originalChatList.map { it.copy() })
+            tvEmpty.visibility = if (originalChatList.isEmpty()) View.VISIBLE else View.GONE
+        } else {
+            filterChats(currentQuery)
+            val filteredList = originalChatList.filter { chat ->
+                chat.otherDisplayName.contains(currentQuery, ignoreCase = true) ||
+                chat.otherEmail.contains(currentQuery, ignoreCase = true) ||
+                chat.lastMessage.contains(currentQuery, ignoreCase = true)
+            }
+            tvEmpty.visibility = if (filteredList.isEmpty()) View.VISIBLE else View.GONE
+        }
     }
 }
 

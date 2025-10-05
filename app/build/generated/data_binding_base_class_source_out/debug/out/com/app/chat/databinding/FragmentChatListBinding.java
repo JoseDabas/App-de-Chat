@@ -28,6 +28,12 @@ public final class FragmentChatListBinding implements ViewBinding {
   public final LinearLayout bottomNavigation;
 
   @NonNull
+  public final TextView btnCancelNewChat;
+
+  @NonNull
+  public final TextView btnCreateNewChat;
+
+  @NonNull
   public final LinearLayout btnMessages;
 
   @NonNull
@@ -35,6 +41,9 @@ public final class FragmentChatListBinding implements ViewBinding {
 
   @NonNull
   public final LinearLayout contextMenu;
+
+  @NonNull
+  public final EditText etNewChatEmail;
 
   @NonNull
   public final EditText etSearch;
@@ -55,6 +64,12 @@ public final class FragmentChatListBinding implements ViewBinding {
   public final LinearLayout menuGroup;
 
   @NonNull
+  public final View modalOverlay;
+
+  @NonNull
+  public final LinearLayout newChatModal;
+
+  @NonNull
   public final RecyclerView rvChats;
 
   @NonNull
@@ -64,23 +79,30 @@ public final class FragmentChatListBinding implements ViewBinding {
   public final TextView tvEmpty;
 
   private FragmentChatListBinding(@NonNull ConstraintLayout rootView,
-      @NonNull LinearLayout bottomNavigation, @NonNull LinearLayout btnMessages,
+      @NonNull LinearLayout bottomNavigation, @NonNull TextView btnCancelNewChat,
+      @NonNull TextView btnCreateNewChat, @NonNull LinearLayout btnMessages,
       @NonNull LinearLayout btnProfile, @NonNull LinearLayout contextMenu,
-      @NonNull EditText etSearch, @NonNull FloatingActionButton fabAdd,
-      @NonNull LinearLayout header, @NonNull ImageView ivLogout, @NonNull LinearLayout menuChat,
-      @NonNull LinearLayout menuGroup, @NonNull RecyclerView rvChats,
+      @NonNull EditText etNewChatEmail, @NonNull EditText etSearch,
+      @NonNull FloatingActionButton fabAdd, @NonNull LinearLayout header,
+      @NonNull ImageView ivLogout, @NonNull LinearLayout menuChat, @NonNull LinearLayout menuGroup,
+      @NonNull View modalOverlay, @NonNull LinearLayout newChatModal, @NonNull RecyclerView rvChats,
       @NonNull LinearLayout searchContainer, @NonNull TextView tvEmpty) {
     this.rootView = rootView;
     this.bottomNavigation = bottomNavigation;
+    this.btnCancelNewChat = btnCancelNewChat;
+    this.btnCreateNewChat = btnCreateNewChat;
     this.btnMessages = btnMessages;
     this.btnProfile = btnProfile;
     this.contextMenu = contextMenu;
+    this.etNewChatEmail = etNewChatEmail;
     this.etSearch = etSearch;
     this.fabAdd = fabAdd;
     this.header = header;
     this.ivLogout = ivLogout;
     this.menuChat = menuChat;
     this.menuGroup = menuGroup;
+    this.modalOverlay = modalOverlay;
+    this.newChatModal = newChatModal;
     this.rvChats = rvChats;
     this.searchContainer = searchContainer;
     this.tvEmpty = tvEmpty;
@@ -119,6 +141,18 @@ public final class FragmentChatListBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnCancelNewChat;
+      TextView btnCancelNewChat = ViewBindings.findChildViewById(rootView, id);
+      if (btnCancelNewChat == null) {
+        break missingId;
+      }
+
+      id = R.id.btnCreateNewChat;
+      TextView btnCreateNewChat = ViewBindings.findChildViewById(rootView, id);
+      if (btnCreateNewChat == null) {
+        break missingId;
+      }
+
       id = R.id.btnMessages;
       LinearLayout btnMessages = ViewBindings.findChildViewById(rootView, id);
       if (btnMessages == null) {
@@ -131,9 +165,15 @@ public final class FragmentChatListBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.context_menu;
+      id = R.id.contextMenu;
       LinearLayout contextMenu = ViewBindings.findChildViewById(rootView, id);
       if (contextMenu == null) {
+        break missingId;
+      }
+
+      id = R.id.etNewChatEmail;
+      EditText etNewChatEmail = ViewBindings.findChildViewById(rootView, id);
+      if (etNewChatEmail == null) {
         break missingId;
       }
 
@@ -161,15 +201,27 @@ public final class FragmentChatListBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.menu_chat;
+      id = R.id.menuChat;
       LinearLayout menuChat = ViewBindings.findChildViewById(rootView, id);
       if (menuChat == null) {
         break missingId;
       }
 
-      id = R.id.menu_group;
+      id = R.id.menuGroup;
       LinearLayout menuGroup = ViewBindings.findChildViewById(rootView, id);
       if (menuGroup == null) {
+        break missingId;
+      }
+
+      id = R.id.modalOverlay;
+      View modalOverlay = ViewBindings.findChildViewById(rootView, id);
+      if (modalOverlay == null) {
+        break missingId;
+      }
+
+      id = R.id.newChatModal;
+      LinearLayout newChatModal = ViewBindings.findChildViewById(rootView, id);
+      if (newChatModal == null) {
         break missingId;
       }
 
@@ -191,9 +243,10 @@ public final class FragmentChatListBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentChatListBinding((ConstraintLayout) rootView, bottomNavigation, btnMessages,
-          btnProfile, contextMenu, etSearch, fabAdd, header, ivLogout, menuChat, menuGroup, rvChats,
-          searchContainer, tvEmpty);
+      return new FragmentChatListBinding((ConstraintLayout) rootView, bottomNavigation,
+          btnCancelNewChat, btnCreateNewChat, btnMessages, btnProfile, contextMenu, etNewChatEmail,
+          etSearch, fabAdd, header, ivLogout, menuChat, menuGroup, modalOverlay, newChatModal,
+          rvChats, searchContainer, tvEmpty);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
