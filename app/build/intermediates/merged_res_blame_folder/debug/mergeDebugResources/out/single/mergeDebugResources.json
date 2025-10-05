@@ -4,6 +4,10 @@
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\ic_logout.xml"
     },
     {
+        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_item_user_selection.xml.flat",
+        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_user_selection.xml"
+    },
+    {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\layout_fragment_register.xml.flat",
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_register.xml"
     },
@@ -44,6 +48,10 @@
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\new_chat_modal_background.xml"
     },
     {
+        "merged": "com.app.chat.app-debug-60:/layout_fragment_chat_list.xml.flat",
+        "source": "com.app.chat.app-main-62:/layout/fragment_chat_list.xml"
+    },
+    {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_ic_user_circle.xml.flat",
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\ic_user_circle.xml"
     },
@@ -66,6 +74,10 @@
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_bg_bubble_other.xml.flat",
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\bg_bubble_other.xml"
+    },
+    {
+        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_presence_indicator_offline.xml.flat",
+        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\presence_indicator_offline.xml"
     },
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_talknow.png.flat",
@@ -120,8 +132,8 @@
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\unread_count_background.xml"
     },
     {
-        "merged": "com.app.chat.app-debug-60:/layout_fragment_login.xml.flat",
-        "source": "com.app.chat.app-main-62:/layout/fragment_login.xml"
+        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_presence_indicator_online.xml.flat",
+        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\drawable\\presence_indicator_online.xml"
     },
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-debug-60:\\drawable_ic_add.xml.flat",

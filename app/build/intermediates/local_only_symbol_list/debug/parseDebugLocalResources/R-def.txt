@@ -58,7 +58,6 @@ id btnRegister
 id btnSend
 id chatFragment
 id chatListFragment
-id contextMenu
 id etEmail
 id etEmailReg
 id etMessage
@@ -76,8 +75,6 @@ id ivUserIcon
 id loginFragment
 id logo
 id logoContainer
-id menuChat
-id menuGroup
 id modalOverlay
 id nav_graph
 id nav_host_fragment

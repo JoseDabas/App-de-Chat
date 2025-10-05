@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="primary_color">#4DD0E1</color>
+    <color name="primary_color">#27C1BE</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -20,5 +20,19 @@
     <string name="project_id" translatable="false">chat-basico-6147f</string>
     <string name="rtdb_url">https://chat-basico-6147f-default-rtdb.firebaseio.com</string>
     <string name="title_chats">Chats</string>
-    <style name="Theme.AppChat" parent="Theme.Material3.Light.NoActionBar"/>
+    <style name="Theme.AppChat" parent="Theme.Material3.Light.NoActionBar">
+        
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/primary_color</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        
+        
+        <item name="colorSecondary">@color/primary_color</item>
+        <item name="colorOnSecondary">@color/white</item>
+        
+        
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+    </style>
 </resources>

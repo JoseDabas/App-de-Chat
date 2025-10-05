@@ -213,7 +213,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         val d: Date = ts.toDate() // Firebase Timestamp ya convierte a zona horaria local
         val pattern = "HH:mm" // Siempre usar formato de 24 horas
         val formatter = java.text.SimpleDateFormat(pattern, Locale.getDefault())
-        formatter.timeZone = TimeZone.getDefault() // Usar zona horaria local explícitamente
+        formatter.timeZone = TimeZone.getTimeZone("GMT-4") // Zona horaria de República Dominicana (UTC-4)
         return formatter.format(d)
     }
 

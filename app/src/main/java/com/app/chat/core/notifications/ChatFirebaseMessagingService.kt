@@ -100,7 +100,7 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
         
         // Construir la notificación
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notifications) // Icono pequeño
+            .setSmallIcon(android.R.drawable.ic_dialog_info) // Icono del sistema Android
             .setContentTitle(senderName) // Nombre del remitente
             .setContentText(messageText) // Texto del mensaje
             .setStyle(NotificationCompat.BigTextStyle().bigText(messageText)) // Texto expandible

@@ -153,7 +153,7 @@ object NotificationManager {
         
         // Construir la notificación
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notifications) // Icono de notificaciones
+            .setSmallIcon(android.R.drawable.ic_dialog_info) // Icono del sistema Android
             .setContentTitle(senderName)
             .setContentText(messageText)
             .setStyle(NotificationCompat.BigTextStyle().bigText(messageText)) // Texto expandible

@@ -61,10 +61,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
     // Referencia al EditText de búsqueda
     private var searchEditText: EditText? = null
 
-    // Referencias al modal
-    private var contextMenu: LinearLayout? = null
-    private var menuChat: LinearLayout? = null
-    private var menuGroup: LinearLayout? = null
+
 
     // Modal de crear chat
     private var newChatModal: LinearLayout? = null
@@ -85,11 +82,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         val fab = view.findViewById<FloatingActionButton>(R.id.fab_add)
         val ivLogout = view.findViewById<ImageView>(R.id.ivLogout)
         searchEditText = view.findViewById<EditText>(R.id.etSearch)
-        
-        // Inicializar referencias del modal
-        contextMenu = view.findViewById<LinearLayout>(R.id.contextMenu)
-        menuChat = view.findViewById<LinearLayout>(R.id.menuChat)
-        menuGroup = view.findViewById<LinearLayout>(R.id.menuGroup)
 
         // Inicializar referencias del nuevo modal de crear chat
         newChatModal = view.findViewById<LinearLayout>(R.id.newChatModal)
@@ -181,24 +173,12 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         }
 
         fab.setOnClickListener { 
-            contextMenu?.visibility = View.VISIBLE
-        }
-        
-        // Click listener para cerrar el modal al tocar el fondo
-        contextMenu?.setOnClickListener {
-            contextMenu?.visibility = View.GONE
-        }
-        
-        // Click listener para la opción de Chat
-        menuChat?.setOnClickListener {
-            contextMenu?.visibility = View.GONE
             showNewChatModal()
         }
-        
-        // Click listener para la opción de Grupo
-        menuGroup?.setOnClickListener {
-            contextMenu?.visibility = View.GONE
-            showNewGroupDialog()
+
+        // Click listener para cerrar el modal al tocar el overlay
+        modalOverlay?.setOnClickListener {
+            hideNewChatModal()
         }
 
         // Click listeners para el nuevo modal de crear chat
@@ -211,10 +191,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         }
 
         btnCancelNewChat?.setOnClickListener {
-            hideNewChatModal()
-        }
-
-        modalOverlay?.setOnClickListener {
             hideNewChatModal()
         }
     }
@@ -327,13 +303,13 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
     // ---------- NUEVO MODAL PARA CREAR CHAT ----------
     private fun showNewChatModal() {
         etNewChatEmail?.text?.clear()
-        newChatModal?.visibility = View.VISIBLE
         modalOverlay?.visibility = View.VISIBLE
+        newChatModal?.visibility = View.VISIBLE
     }
 
     private fun hideNewChatModal() {
-        newChatModal?.visibility = View.GONE
         modalOverlay?.visibility = View.GONE
+        newChatModal?.visibility = View.GONE
         etNewChatEmail?.text?.clear()
     }
 
@@ -478,17 +454,17 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         return when {
             diff < 86400_000 -> { // menos de 1 día - mostrar hora en formato 24h
                 val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-                timeFormat.timeZone = TimeZone.getDefault() // Usar zona horaria local
+                timeFormat.timeZone = TimeZone.getTimeZone("GMT-4") // Zona horaria de República Dominicana (UTC-4)
                 timeFormat.format(Date(timestamp))
             }
             diff < 604800_000 -> { // menos de 1 semana - mostrar día de la semana
                 val dayFormat = SimpleDateFormat("EEE", Locale.getDefault())
-                dayFormat.timeZone = TimeZone.getDefault() // Usar zona horaria local
+                dayFormat.timeZone = TimeZone.getTimeZone("GMT-4") // Zona horaria 
                 dayFormat.format(Date(timestamp))
             }
             else -> { // más de 1 semana - mostrar fecha
                 val dateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
-                dateFormat.timeZone = TimeZone.getDefault() // Usar zona horaria local
+                dateFormat.timeZone = TimeZone.getTimeZone("GMT-4") // Zona horaria 
                 dateFormat.format(Date(timestamp))
             }
         }

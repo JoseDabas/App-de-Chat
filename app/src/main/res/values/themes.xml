@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Usa Material 3 o AppCompat; las dos valen. -->
-    <style name="Theme.AppChat" parent="Theme.Material3.Light.NoActionBar" />
+    <!-- Tema principal de la aplicación con colores azul turquesa -->
+    <style name="Theme.AppChat" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Color primario -->
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/primary_color</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        
+        <!-- Color secundario -->
+        <item name="colorSecondary">@color/primary_color</item>
+        <item name="colorOnSecondary">@color/white</item>
+        
+        <!-- Color de superficie -->
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+    </style>
 </resources>

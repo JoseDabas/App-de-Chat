@@ -4,8 +4,8 @@
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\toolbar_chat_user_info.xml"
     },
     {
-        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/fragment_login.xml",
-        "source": "com.app.chat.app-main-62:/layout/fragment_login.xml"
+        "merged": "com.app.chat.app-mergeDebugResources-59:/layout/fragment_chat_list.xml",
+        "source": "com.app.chat.app-main-62:/layout/fragment_chat_list.xml"
     },
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\item_message_mine.xml",
@@ -26,6 +26,10 @@
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_chat_list.xml",
         "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\fragment_chat_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\item_user_selection.xml",
+        "source": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-main-62:\\layout\\item_user_selection.xml"
     },
     {
         "merged": "C:\\Users\\josea\\.gradle\\daemon\\8.13\\com.app.chat.app-mergeDebugResources-59:\\layout\\fragment_login.xml",

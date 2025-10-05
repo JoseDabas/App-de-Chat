@@ -37,9 +37,6 @@ public final class FragmentChatListBinding implements ViewBinding {
   public final LinearLayout btnMessages;
 
   @NonNull
-  public final LinearLayout contextMenu;
-
-  @NonNull
   public final EditText etNewChatEmail;
 
   @NonNull
@@ -53,12 +50,6 @@ public final class FragmentChatListBinding implements ViewBinding {
 
   @NonNull
   public final ImageView ivLogout;
-
-  @NonNull
-  public final LinearLayout menuChat;
-
-  @NonNull
-  public final LinearLayout menuGroup;
 
   @NonNull
   public final View modalOverlay;
@@ -78,25 +69,21 @@ public final class FragmentChatListBinding implements ViewBinding {
   private FragmentChatListBinding(@NonNull ConstraintLayout rootView,
       @NonNull LinearLayout bottomNavigation, @NonNull TextView btnCancelNewChat,
       @NonNull TextView btnCreateNewChat, @NonNull LinearLayout btnMessages,
-      @NonNull LinearLayout contextMenu, @NonNull EditText etNewChatEmail,
-      @NonNull EditText etSearch, @NonNull FloatingActionButton fabAdd,
-      @NonNull LinearLayout header, @NonNull ImageView ivLogout, @NonNull LinearLayout menuChat,
-      @NonNull LinearLayout menuGroup, @NonNull View modalOverlay,
-      @NonNull LinearLayout newChatModal, @NonNull RecyclerView rvChats,
-      @NonNull LinearLayout searchContainer, @NonNull TextView tvEmpty) {
+      @NonNull EditText etNewChatEmail, @NonNull EditText etSearch,
+      @NonNull FloatingActionButton fabAdd, @NonNull LinearLayout header,
+      @NonNull ImageView ivLogout, @NonNull View modalOverlay, @NonNull LinearLayout newChatModal,
+      @NonNull RecyclerView rvChats, @NonNull LinearLayout searchContainer,
+      @NonNull TextView tvEmpty) {
     this.rootView = rootView;
     this.bottomNavigation = bottomNavigation;
     this.btnCancelNewChat = btnCancelNewChat;
     this.btnCreateNewChat = btnCreateNewChat;
     this.btnMessages = btnMessages;
-    this.contextMenu = contextMenu;
     this.etNewChatEmail = etNewChatEmail;
     this.etSearch = etSearch;
     this.fabAdd = fabAdd;
     this.header = header;
     this.ivLogout = ivLogout;
-    this.menuChat = menuChat;
-    this.menuGroup = menuGroup;
     this.modalOverlay = modalOverlay;
     this.newChatModal = newChatModal;
     this.rvChats = rvChats;
@@ -155,12 +142,6 @@ public final class FragmentChatListBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.contextMenu;
-      LinearLayout contextMenu = ViewBindings.findChildViewById(rootView, id);
-      if (contextMenu == null) {
-        break missingId;
-      }
-
       id = R.id.etNewChatEmail;
       EditText etNewChatEmail = ViewBindings.findChildViewById(rootView, id);
       if (etNewChatEmail == null) {
@@ -188,18 +169,6 @@ public final class FragmentChatListBinding implements ViewBinding {
       id = R.id.ivLogout;
       ImageView ivLogout = ViewBindings.findChildViewById(rootView, id);
       if (ivLogout == null) {
-        break missingId;
-      }
-
-      id = R.id.menuChat;
-      LinearLayout menuChat = ViewBindings.findChildViewById(rootView, id);
-      if (menuChat == null) {
-        break missingId;
-      }
-
-      id = R.id.menuGroup;
-      LinearLayout menuGroup = ViewBindings.findChildViewById(rootView, id);
-      if (menuGroup == null) {
         break missingId;
       }
 
@@ -234,9 +203,8 @@ public final class FragmentChatListBinding implements ViewBinding {
       }
 
       return new FragmentChatListBinding((ConstraintLayout) rootView, bottomNavigation,
-          btnCancelNewChat, btnCreateNewChat, btnMessages, contextMenu, etNewChatEmail, etSearch,
-          fabAdd, header, ivLogout, menuChat, menuGroup, modalOverlay, newChatModal, rvChats,
-          searchContainer, tvEmpty);
+          btnCancelNewChat, btnCreateNewChat, btnMessages, etNewChatEmail, etSearch, fabAdd, header,
+          ivLogout, modalOverlay, newChatModal, rvChats, searchContainer, tvEmpty);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
