@@ -65,4 +65,7 @@ dependencies {
     // Para ProcessLifecycleOwner
     implementation("androidx.lifecycle:lifecycle-process:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+
+    // ---- WorkManager para tareas en background ----
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 }

@@ -48,7 +48,7 @@
 
     <!-- Servicio FCM para manejar notificaciones push -->
     <service
-        android:name=".ChatFirebaseMessagingService"
+        android:name=".core.notifications.ChatFirebaseMessagingService"
         android:exported="false"
         android:directBootAware="true"
         android:enabled="true"
@@ -60,7 +60,7 @@
     </service>
 
     <!-- Receiver para manejar reinicios del dispositivo -->
-    <receiver android:name=".BootReceiver"
+    <receiver android:name=".core.notifications.BootReceiver"
         android:enabled="true"
         android:exported="true">
       <intent-filter android:priority="1000">
@@ -72,7 +72,7 @@
 
     <!-- Servicio en background para mantener la app activa -->
     <service
-        android:name=".BackgroundService"
+        android:name="com.example.appchat.BackgroundService"
         android:enabled="true"
         android:exported="false"
         android:foregroundServiceType="dataSync"

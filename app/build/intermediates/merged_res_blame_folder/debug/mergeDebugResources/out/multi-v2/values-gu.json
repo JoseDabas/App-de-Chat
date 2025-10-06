@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.app.chat.app-mergeDebugResources-58:/values-gu/values-gu.xml",
+            "outputFile": "com.app.chat.app-mergeDebugResources-65:/values-gu/values-gu.xml",
             "map": [
                 {
                     "source": "C:\\Users\\josea\\.gradle\\caches\\8.13\\transforms\\b50ba8976e0d9053cff34d499fedf679\\transformed\\core-1.13.1\\res\\values-gu\\values-gu.xml",

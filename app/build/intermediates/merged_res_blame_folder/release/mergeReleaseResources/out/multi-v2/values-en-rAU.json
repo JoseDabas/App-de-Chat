@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.app.chat.app-mergeReleaseResources-58:/values-en-rAU/values-en-rAU.xml",
+            "outputFile": "com.app.chat.app-mergeReleaseResources-65:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
                     "source": "C:\\Users\\josea\\.gradle\\caches\\8.13\\transforms\\58703f32ee01ab93e7ff2326b490f79e\\transformed\\navigation-ui-2.7.7\\res\\values-en-rAU\\values-en-rAU.xml",

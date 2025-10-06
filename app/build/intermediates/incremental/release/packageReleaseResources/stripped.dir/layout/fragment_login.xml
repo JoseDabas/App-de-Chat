@@ -11,8 +11,8 @@
     <!-- Logo -->
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="292dp"
-        android:layout_height="87dp"
+        android:layout_width="261dp"
+        android:layout_height="83dp"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="40dp"
         android:scaleType="centerCrop"
@@ -50,7 +50,7 @@
         android:hint="Contraseña"
         android:inputType="textPassword"
         android:autofillHints="password"
-        android:background="@drawable/button_turquoise_outline"
+        android:background="@drawable/button_turquoise_outline" 
         android:padding="16dp"
         android:layout_marginBottom="24dp"
         android:textSize="16sp" />
@@ -61,12 +61,12 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button_turquoise_background"
         android:elevation="4dp"
         android:fontFamily="sans-serif-medium"
         android:text="Entrar"
         android:textColor="@android:color/white"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:backgroundTint="#27C1BE" />
 
     <!-- Botón Volver -->
     <Button
@@ -74,9 +74,12 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:text="Volver"
-        android:background="@drawable/button_turquoise_outline"
-        android:textColor="@color/turquoise_blue"
+        android:textColor="#27C1BE"
         android:textSize="16sp"
-        android:fontFamily="sans-serif-medium" />
+        android:fontFamily="sans-serif-medium"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        app:backgroundTint="@android:color/white"
+        app:strokeColor="#27C1BE"
+        app:strokeWidth="2dp" />
 
 </LinearLayout>

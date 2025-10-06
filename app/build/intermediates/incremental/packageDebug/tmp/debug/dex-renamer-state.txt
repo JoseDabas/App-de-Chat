@@ -1,4 +1,4 @@
-#Sun Oct 05 22:06:47 GMT-04:00 2025
+#Sun Oct 05 22:35:44 GMT-04:00 2025
 base.0=C\:\\Users\\josea\\OneDrive\\Desktop\\Desarrollo de Aplicaciones Moviles\\Proyecto Android - App de Chat Basico\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\josea\\OneDrive\\Desktop\\Desarrollo de Aplicaciones Moviles\\Proyecto Android - App de Chat Basico\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.10=C\:\\Users\\josea\\OneDrive\\Desktop\\Desarrollo de Aplicaciones Moviles\\Proyecto Android - App de Chat Basico\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\5\\classes.dex
