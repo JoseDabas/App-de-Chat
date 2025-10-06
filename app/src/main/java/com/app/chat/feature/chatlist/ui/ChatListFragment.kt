@@ -454,7 +454,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         return when {
             diff < 86400_000 -> { // menos de 1 día - mostrar hora en formato 24h
                 val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-                timeFormat.timeZone = TimeZone.getTimeZone("GMT-4") // Zona horaria de República Dominicana (UTC-4)
+                timeFormat.timeZone = TimeZone.getTimeZone("GMT-4") // Zona horaria 
                 timeFormat.format(Date(timestamp))
             }
             diff < 604800_000 -> { // menos de 1 semana - mostrar día de la semana

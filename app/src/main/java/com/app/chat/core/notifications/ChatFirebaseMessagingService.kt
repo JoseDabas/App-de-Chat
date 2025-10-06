@@ -10,6 +10,9 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.app.chat.MainActivity
 import com.app.chat.R
+import com.app.chat.core.notifications.NotificationManager as CustomNotificationManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -100,7 +103,7 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
         
         // Construir la notificación
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.ic_dialog_info) // Icono del sistema Android
+            .setSmallIcon(R.drawable.talknow) // Icono personalizado talknow.png
             .setContentTitle(senderName) // Nombre del remitente
             .setContentText(messageText) // Texto del mensaje
             .setStyle(NotificationCompat.BigTextStyle().bigText(messageText)) // Texto expandible
@@ -111,7 +114,7 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
             .build()
         
         // Mostrar la notificación
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
         notificationManager.notify(NOTIFICATION_ID, notification)
         
         Log.d(TAG, "Notificación mostrada: $senderName - $messageText")
@@ -140,7 +143,7 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
             .setContentIntent(pendingIntent)
             .build()
         
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
         notificationManager.notify(NOTIFICATION_ID, notification)
     }
 
@@ -153,14 +156,14 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_HIGH
+                android.app.NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = CHANNEL_DESCRIPTION
                 enableLights(true) // Habilitar luz LED
                 enableVibration(true) // Habilitar vibración
             }
             
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
             notificationManager.createNotificationChannel(channel)
             
             Log.d(TAG, "Canal de notificaciones creado: $CHANNEL_ID")
@@ -169,20 +172,28 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
 
     /**
      * Envía el token FCM al servidor para poder enviar notificaciones dirigidas
-     * TODO: Implementar la lógica para enviar el token a tu backend
+     * Guarda el token en Firestore asociado al usuario actual
      */
     private fun sendTokenToServer(token: String) {
-        // Aquí deberías enviar el token a tu servidor/base de datos
-        // para poder enviar notificaciones dirigidas a este dispositivo
-        Log.d(TAG, "Token enviado al servidor: $token")
+        Log.d(TAG, "Guardando token FCM: $token")
         
-        // Ejemplo de cómo podrías guardarlo en Firestore:
-        // val userId = FirebaseAuth.getInstance().currentUser?.uid
-        // if (userId != null) {
-        //     FirebaseFirestore.getInstance()
-        //         .collection("users")
-        //         .document(userId)
-        //         .update("fcmToken", token)
-        // }
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            val userId = currentUser.uid
+            
+            // Guardar el token en el documento del usuario
+            FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userId)
+                .update("fcmToken", token)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Token FCM guardado en Firestore para usuario: $userId")
+                }
+                .addOnFailureListener { exception ->
+                    Log.e(TAG, "Error al guardar token FCM en Firestore", exception)
+                }
+        } else {
+            Log.w(TAG, "No hay usuario autenticado, no se puede guardar el token FCM")
+        }
     }
 }
