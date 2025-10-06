@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:2:1-66:12
-INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:2:1-66:12
-INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:2:1-66:12
-INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:2:1-66:12
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:2:1-87:12
+INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:2:1-87:12
+INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:2:1-87:12
+INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:2:1-87:12
 MERGED from [androidx.databinding:viewbinding:8.13.0] C:\Users\josea\.gradle\caches\8.13\transforms\7038dced135928748a250f580d4c98d6\transformed\viewbinding-8.13.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigation:navigation-common:2.7.7] C:\Users\josea\.gradle\caches\8.13\transforms\7d80ea164b6aa3b1fcbc2c3506396837\transformed\navigation-common-2.7.7\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-ktx:2.7.7] C:\Users\josea\.gradle\caches\8.13\transforms\d4cf6f2e77a098a87b8c5cb6fec7c219\transformed\navigation-common-ktx-2.7.7\AndroidManifest.xml:2:1-7:12
@@ -226,9 +226,29 @@ uses-permission#android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:16:3-93
 	android:name
 		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:16:20-90
+uses-permission#android.permission.DISABLE_KEYGUARD
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:19:3-73
+	android:name
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:19:20-70
+uses-permission#android.permission.SYSTEM_ALERT_WINDOW
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:20:3-76
+	android:name
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:20:20-73
+uses-permission#android.permission.SCHEDULE_EXACT_ALARM
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:21:3-77
+	android:name
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:21:20-74
+uses-permission#android.permission.USE_EXACT_ALARM
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:22:3-72
+	android:name
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:22:20-69
+uses-permission#android.permission.FOREGROUND_SERVICE_DATA_SYNC
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:23:3-85
+	android:name
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:23:20-82
 application
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:18:3-65:17
-INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:18:3-65:17
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:25:3-86:17
+INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:25:3-86:17
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\josea\.gradle\caches\8.13\transforms\e7bc6f370c790f811b7970ce07f63002\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\josea\.gradle\caches\8.13\transforms\e7bc6f370c790f811b7970ce07f63002\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\josea\.gradle\caches\8.13\transforms\30efa8c16fdc648ee0bb7373ade927a4\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -328,81 +348,109 @@ MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] C:\Users\josea\.gradle\caches\8.13\transforms\b50ba8976e0d9053cff34d499fedf679\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 	android:label
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:20:7-39
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:27:7-39
+	android:killAfterRestore
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:31:7-39
+	android:persistent
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:32:7-32
 	android:icon
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:21:7-39
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:28:7-39
+	android:allowBackup
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:30:7-33
+	android:stopWithTask
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:33:7-35
 	android:theme
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:22:7-43
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:29:7-43
 	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:19:7-30
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:26:7-30
 activity#com.app.chat.MainActivity
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:24:5-31:16
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:35:5-42:16
 	android:exported
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:26:9-32
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:37:9-32
 	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:25:9-37
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:36:9-37
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:27:7-30:23
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:38:7-41:23
 action#android.intent.action.MAIN
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:28:9-60
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:39:9-60
 	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:28:17-58
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:39:17-58
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:29:9-68
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:40:9-68
 	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:29:19-66
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:40:19-66
 activity#com.app.chat.feature.chat.ui.ImageViewerActivity
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:33:5-36:67
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:44:5-47:67
 	android:exported
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:35:9-33
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:46:9-33
 	android:theme
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:36:9-65
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:47:9-65
 	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:34:9-60
-service#com.app.chat.core.notifications.ChatFirebaseMessagingService
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:39:5-46:15
-	android:exported
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:41:9-33
-	android:directBootAware
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:42:9-39
-	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:40:9-72
-intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:43:7-45:23
-action#com.google.firebase.MESSAGING_EVENT
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:44:9-70
-	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:44:17-67
-receiver#com.app.chat.core.notifications.BootReceiver
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:49:5-58:16
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:45:9-60
+service#com.app.chat.ChatFirebaseMessagingService
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:50:5-60:15
 	android:enabled
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:51:9-31
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:54:9-31
 	android:exported
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:52:9-32
-	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:50:9-56
-intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.QUICKBOOT_POWERON+category:name:android.intent.category.DEFAULT
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:53:7-57:23
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:52:9-33
 	android:priority
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:53:22-45
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:56:9-32
+	android:stopWithTask
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:55:9-37
+	android:directBootAware
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:53:9-39
+	android:name
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:51:9-53
+intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:57:7-59:23
+	android:priority
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:57:22-45
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:58:9-70
+	android:name
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:58:17-67
+receiver#com.app.chat.BootReceiver
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:63:5-71:16
+	android:enabled
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:64:9-31
+	android:exported
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:65:9-32
+	android:name
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:63:15-43
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.QUICKBOOT_POWERON+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:66:7-70:23
+	android:priority
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:66:22-45
 action#android.intent.action.BOOT_COMPLETED
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:54:9-71
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:67:9-71
 	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:54:17-68
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:67:17-68
 action#android.intent.action.QUICKBOOT_POWERON
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:55:9-74
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:68:9-74
 	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:55:17-71
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:68:17-71
 category#android.intent.category.DEFAULT
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:56:9-68
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:69:9-68
 	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:56:19-65
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:69:19-65
+service#com.app.chat.BackgroundService
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:74:5-79:40
+	android:enabled
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:76:9-31
+	android:exported
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:77:9-33
+	android:stopWithTask
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:79:9-37
+	android:foregroundServiceType
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:78:9-49
+	android:name
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:75:9-42
 meta-data#com.google.firebase.messaging.default_notification_channel_id
-ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:61:5-63:41
+ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:82:5-84:41
 	android:value
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:63:9-38
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:84:9-38
 	android:name
-		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:62:9-85
+		ADDED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml:83:9-85
 uses-sdk
 INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\src\main\AndroidManifest.xml

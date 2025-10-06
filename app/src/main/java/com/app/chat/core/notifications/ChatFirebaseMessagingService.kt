@@ -55,6 +55,8 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "Mensaje recibido de: ${remoteMessage.from}")
         Log.d(TAG, "Estado de la app: ${if (isAppInForeground()) "Primer plano" else "Background/Cerrada"}")
         
+        val isAppInForeground = isAppInForeground()
+        
         // Verificar si el mensaje contiene datos
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Datos del mensaje: ${remoteMessage.data}")
@@ -66,25 +68,39 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
             val title = remoteMessage.data["title"] ?: senderName
             val body = remoteMessage.data["body"] ?: messageText
             
-            // Siempre mostrar notificación personalizada para mensajes con datos
-            // Esto asegura que las notificaciones aparezcan incluso cuando la app está cerrada
-            showNotification(title, body, chatId, senderName, messageText)
+            // SIEMPRE mostrar notificación para mensajes con datos, independientemente del estado de la app
+            // Usar notificación de alta prioridad si la app está cerrada/background
+            if (isAppInForeground) {
+                showNotification(title, body, chatId, senderName, messageText)
+            } else {
+                // App cerrada o en background: usar notificación de máxima prioridad
+                createHighPriorityNotification(title, body, chatId)
+            }
         }
         
         // Verificar si el mensaje contiene una notificación (título y cuerpo)
-        // NOTA: Si el mensaje FCM contiene 'notification', Android lo maneja automáticamente
-        // cuando la app está cerrada, por lo que este código solo se ejecuta en background
         remoteMessage.notification?.let { notification ->
             Log.d(TAG, "Título de notificación: ${notification.title}")
             Log.d(TAG, "Cuerpo de notificación: ${notification.body}")
             
-            // Solo mostrar notificación si la app está en primer plano
-            // (Android ya maneja las notificaciones automáticamente cuando está cerrada)
-            if (isAppInForeground()) {
-                showSimpleNotification(
-                    notification.title ?: "Nuevo mensaje",
-                    notification.body ?: "Tienes un nuevo mensaje"
-                )
+            val title = notification.title ?: "Nuevo mensaje"
+            val body = notification.body ?: "Tienes un nuevo mensaje"
+            
+            // SIEMPRE mostrar notificación personalizada, incluso si Android ya mostró una
+            // Esto asegura que nuestras notificaciones aparezcan con el icono correcto
+            if (isAppInForeground) {
+                showSimpleNotification(title, body)
+            } else {
+                // App cerrada: crear notificación de alta prioridad
+                createHighPriorityNotification(title, body, "")
+            }
+        }
+        
+        // Si no hay datos ni notificación, crear una notificación genérica
+        if (remoteMessage.data.isEmpty() && remoteMessage.notification == null) {
+            Log.d(TAG, "Mensaje sin datos ni notificación, creando notificación genérica")
+            if (!isAppInForeground) {
+                createHighPriorityNotification("Nuevo mensaje", "Tienes un nuevo mensaje en TalkNow", "")
             }
         }
     }
@@ -265,23 +281,69 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendTokenToServer(token: String) {
         Log.d(TAG, "Guardando token FCM: $token")
         
+        // Guardar token localmente para persistencia
+        val sharedPrefs = getSharedPreferences("fcm_prefs", Context.MODE_PRIVATE)
+        sharedPrefs.edit().putString("fcm_token", token).apply()
+        
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
             val userId = currentUser.uid
             
-            // Guardar el token en el documento del usuario
-            FirebaseFirestore.getInstance()
-                .collection("users")
-                .document(userId)
-                .update("fcmToken", token)
-                .addOnSuccessListener {
-                    Log.d(TAG, "Token FCM guardado en Firestore para usuario: $userId")
-                }
-                .addOnFailureListener { exception ->
-                    Log.e(TAG, "Error al guardar token FCM en Firestore", exception)
-                }
+            // Crear datos del token con timestamp
+            val tokenData = mapOf(
+                "fcmToken" to token,
+                "lastUpdated" to System.currentTimeMillis(),
+                "deviceInfo" to android.os.Build.MODEL
+            )
+            
+            // Guardar el token en el documento del usuario con reintentos
+            saveTokenWithRetry(userId, tokenData, 0)
         } else {
-            Log.w(TAG, "No hay usuario autenticado, no se puede guardar el token FCM")
+            Log.w(TAG, "No hay usuario autenticado, guardando token localmente")
         }
+    }
+    
+    /**
+     * Guarda el token con reintentos en caso de fallo
+     */
+    private fun saveTokenWithRetry(userId: String, tokenData: Map<String, Any>, attempt: Int) {
+        if (attempt >= 3) {
+            Log.e(TAG, "Máximo número de reintentos alcanzado para guardar token FCM")
+            return
+        }
+        
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(userId)
+            .update(tokenData)
+            .addOnSuccessListener {
+                Log.d(TAG, "Token FCM guardado en Firestore para usuario: $userId (intento ${attempt + 1})")
+            }
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "Error al guardar token FCM en Firestore (intento ${attempt + 1})", exception)
+                
+                // Si el documento no existe, intentar crearlo
+                if (exception.message?.contains("No document to update") == true) {
+                    FirebaseFirestore.getInstance()
+                        .collection("users")
+                        .document(userId)
+                        .set(tokenData, com.google.firebase.firestore.SetOptions.merge())
+                        .addOnSuccessListener {
+                            Log.d(TAG, "Token FCM creado en nuevo documento para usuario: $userId")
+                        }
+                        .addOnFailureListener { createException ->
+                            Log.e(TAG, "Error al crear documento con token FCM", createException)
+                            // Reintentar después de un delay
+                            android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                                saveTokenWithRetry(userId, tokenData, attempt + 1)
+                            }, 2000L * (attempt + 1))
+                        }
+                } else {
+                    // Reintentar después de un delay
+                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                        saveTokenWithRetry(userId, tokenData, attempt + 1)
+                    }, 2000L * (attempt + 1))
+                }
+            }
     }
 }

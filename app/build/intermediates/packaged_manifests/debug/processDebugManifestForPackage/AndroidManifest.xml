@@ -21,6 +21,13 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- Permisos adicionales para evitar optimizaciones -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <!-- Required by older versions of Google Play services to create IID tokens -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
@@ -37,11 +44,16 @@
 
     <application
         android:name="com.app.chat.ChatApp"
+        android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
         android:icon="@drawable/talknow"
+        android:killAfterRestore="false"
         android:label="@string/app_name"
+        android:persistent="true"
+        android:stopWithTask="false"
+        android:testOnly="true"
         android:theme="@style/Theme.AppChat" >
         <activity
             android:name="com.app.chat.MainActivity"
@@ -59,17 +71,20 @@
 
         <!-- Servicio FCM para manejar notificaciones push -->
         <service
-            android:name="com.app.chat.core.notifications.ChatFirebaseMessagingService"
+            android:name="com.app.chat.ChatFirebaseMessagingService"
             android:directBootAware="true"
-            android:exported="false" >
-            <intent-filter>
+            android:enabled="true"
+            android:exported="false"
+            android:priority="1000"
+            android:stopWithTask="false" >
+            <intent-filter android:priority="1000" >
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <!-- Receiver para reinicio del dispositivo -->
+        <!-- Receiver para manejar reinicios del dispositivo -->
         <receiver
-            android:name="com.app.chat.core.notifications.BootReceiver"
+            android:name="com.app.chat.BootReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter android:priority="1000" >
@@ -79,6 +94,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+
+        <!-- Servicio en background para mantener la app activa -->
+        <service
+            android:name="com.app.chat.BackgroundService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            android:stopWithTask="false" />
 
         <!-- Canal de notificaciones por defecto -->
         <meta-data

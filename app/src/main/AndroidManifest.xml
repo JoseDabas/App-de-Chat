@@ -14,12 +14,23 @@
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
   <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+  
+  <!-- Permisos adicionales para evitar optimizaciones -->
+  <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+  <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+  <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
   <application
       android:name=".ChatApp"
       android:label="@string/app_name"
       android:icon="@drawable/talknow"
-      android:theme="@style/Theme.AppChat">
+      android:theme="@style/Theme.AppChat"
+      android:allowBackup="true"
+      android:killAfterRestore="false"
+      android:persistent="true"
+      android:stopWithTask="false">
 
     <activity
         android:name=".MainActivity"
@@ -37,17 +48,19 @@
 
     <!-- Servicio FCM para manejar notificaciones push -->
     <service
-        android:name=".core.notifications.ChatFirebaseMessagingService"
+        android:name=".ChatFirebaseMessagingService"
         android:exported="false"
-        android:directBootAware="true">
-      <intent-filter>
+        android:directBootAware="true"
+        android:enabled="true"
+        android:stopWithTask="false"
+        android:priority="1000">
+      <intent-filter android:priority="1000">
         <action android:name="com.google.firebase.MESSAGING_EVENT" />
       </intent-filter>
     </service>
 
-    <!-- Receiver para reinicio del dispositivo -->
-    <receiver
-        android:name=".core.notifications.BootReceiver"
+    <!-- Receiver para manejar reinicios del dispositivo -->
+    <receiver android:name=".BootReceiver"
         android:enabled="true"
         android:exported="true">
       <intent-filter android:priority="1000">
@@ -56,6 +69,14 @@
         <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
     </receiver>
+
+    <!-- Servicio en background para mantener la app activa -->
+    <service
+        android:name=".BackgroundService"
+        android:enabled="true"
+        android:exported="false"
+        android:foregroundServiceType="dataSync"
+        android:stopWithTask="false" />
 
     <!-- Canal de notificaciones por defecto -->
     <meta-data

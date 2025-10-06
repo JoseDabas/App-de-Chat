@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
+import com.example.appchat.BackgroundService
 
 /**
  * Receiver que se ejecuta cuando el dispositivo se reinicia
@@ -22,7 +23,15 @@ class BootReceiver : BroadcastReceiver() {
         when (intent.action) {
             Intent.ACTION_BOOT_COMPLETED,
             "android.intent.action.QUICKBOOT_POWERON" -> {
-                Log.d(TAG, "Dispositivo reiniciado, reinicializando FCM")
+                Log.d(TAG, "Dispositivo reiniciado, reinicializando FCM y iniciando servicio background")
+                
+                // Iniciar el servicio en background
+                try {
+                    BackgroundService.startService(context)
+                    Log.d(TAG, "BackgroundService iniciado después del reinicio")
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error al iniciar BackgroundService", e)
+                }
                 
                 // Reinicializar el token FCM después del reinicio
                 try {

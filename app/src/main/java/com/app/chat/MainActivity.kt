@@ -6,8 +6,20 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.app.chat.core.session.SessionPrefs
 import com.google.firebase.auth.FirebaseAuth
+import com.example.appchat.BackgroundService
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        // Iniciar el servicio en background para mantener FCM activo
+        try {
+            BackgroundService.startService(this)
+        } catch (e: Exception) {
+            android.util.Log.e("MainActivity", "Error al iniciar BackgroundService", e)
+        }
+    }
 
     override fun onStart() {
         super.onStart()
