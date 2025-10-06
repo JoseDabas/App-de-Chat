@@ -1,0 +1,5 @@
+com.app.chat.test.app-androidTest-0 C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\build\generated\res\resValues\androidTest\debug
+com.app.chat.test.app-updated_navigation_xml-1 C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\build\generated\updated_navigation_xml\debugAndroidTest
+com.app.chat.test.app-mergeDebugAndroidTestResources-2 C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.app.chat.test.app-mergeDebugAndroidTestResources-3 C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.app.chat.test.app-debugAndroidTest-4 C:\Users\josea\OneDrive\Desktop\Desarrollo de Aplicaciones Moviles\Proyecto Android - App de Chat Basico\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
