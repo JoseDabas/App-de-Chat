@@ -373,8 +373,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                     NotificationManager.showLocalNotification(
                         requireContext(),
                         message.senderDisplayName,
-                        messageText,
-                        chatId
+                        messageText
                     )
                 }
             }

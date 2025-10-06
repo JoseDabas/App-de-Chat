@@ -8,26 +8,17 @@
         android:minSdkVersion="24"
         android:targetSdkVersion="34" />
 
-    <!-- Firebase / red -->
+    <!-- Red / Firebase -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- Permisos para notificaciones push -->
+    <!-- Notificaciones -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!-- Permisos para notificaciones en background -->
+    <!-- Arranque tras reinicio (opcional si quieres actualizar token en boot) -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-
-    <!-- Permisos adicionales para evitar optimizaciones -->
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <!-- Required by older versions of Google Play services to create IID tokens -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
@@ -35,6 +26,7 @@
     <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
     <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <permission
         android:name="com.app.chat.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -44,16 +36,11 @@
 
     <application
         android:name="com.app.chat.ChatApp"
-        android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
         android:icon="@drawable/talknow"
-        android:killAfterRestore="false"
         android:label="@string/app_name"
-        android:persistent="true"
-        android:stopWithTask="false"
-        android:testOnly="true"
         android:theme="@style/Theme.AppChat" >
         <activity
             android:name="com.app.chat.MainActivity"
@@ -69,25 +56,23 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- Servicio FCM para manejar notificaciones push -->
+        <!-- Servicio FCM -->
         <service
             android:name="com.app.chat.core.notifications.ChatFirebaseMessagingService"
             android:directBootAware="true"
             android:enabled="true"
-            android:exported="false"
-            android:priority="1000"
-            android:stopWithTask="false" >
-            <intent-filter android:priority="1000" >
+            android:exported="false" >
+            <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <!-- Receiver para manejar reinicios del dispositivo -->
+        <!-- Receiver para reinicio del dispositivo -->
         <receiver
             android:name="com.app.chat.core.notifications.BootReceiver"
             android:enabled="true"
             android:exported="true" >
-            <intent-filter android:priority="1000" >
+            <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
 
@@ -95,15 +80,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- Servicio en background para mantener la app activa -->
-        <service
-            android:name="com.example.appchat.BackgroundService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="dataSync"
-            android:stopWithTask="false" />
-
-        <!-- Canal de notificaciones por defecto -->
+        <!-- Canal por defecto para notificaciones de FCM -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="chat_messages" />

@@ -14,14 +14,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Arranca un servicio ligero en segundo plano para mantener la app activa
-        // a efectos de FCM (recepción de notificaciones). Si falla, se registra en log.
-        try {
-            BackgroundService.startService(this)
-        } catch (e: Exception) {
-            android.util.Log.e("MainActivity", "Error al iniciar BackgroundService", e)
-        }
     }
 
     override fun onStart() {

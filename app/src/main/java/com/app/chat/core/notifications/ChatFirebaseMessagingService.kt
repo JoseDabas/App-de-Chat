@@ -5,12 +5,10 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.app.chat.MainActivity
-import com.google.firebase.firestore.SetOptions
 import com.app.chat.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -22,518 +20,213 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-
+/**
+ * Servicio FCM:
+ *  - onNewToken: almacena local y refleja en Firestore el token.
+ *  - onMessageReceived: muestra notificaciones para mensajes de tipo "data".
+ * Se diseñó defensivo para evitar crashes por nulos/errores en background.
+ */
 class ChatFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
         private const val TAG = "ChatFCMService"
-        
-        // Configuración de canales de notificación
-        private const val CHANNEL_ID_MESSAGES = "chat_messages"
-        private const val CHANNEL_ID_GENERAL = "general_notifications"
-        private const val CHANNEL_NAME_MESSAGES = "Mensajes de Chat"
-        private const val CHANNEL_NAME_GENERAL = "Notificaciones Generales"
-        
-        // Configuración de SharedPreferences
-        private const val PREFS_NAME = "fcm_token_prefs"
-        private const val KEY_FCM_TOKEN = "fcm_token"
-        private const val KEY_TOKEN_TIMESTAMP = "token_timestamp"
-        private const val KEY_DEVICE_INFO = "device_info"
-        
-        // Configuración de reintentos
-        private const val MAX_RETRY_ATTEMPTS = 3
-        private const val RETRY_DELAY_BASE = 2000L // 2 segundos base
-        
-        // Configuración de expiración de tokens (30 días)
-        private const val TOKEN_EXPIRATION_TIME = 30L * 24L * 60L * 60L * 1000L // 30 días en ms
+
+        // Canales de notificación (Android O+).
+        private const val CH_MESSAGES_ID = "chat_messages"
+        private const val CH_MESSAGES_NAME = "Mensajes de Chat"
+        private const val CH_GENERAL_ID = "general_notifications"
+        private const val CH_GENERAL_NAME = "Notificaciones Generales"
     }
 
-    private val firestore by lazy { FirebaseFirestore.getInstance() }
+    private val scope = CoroutineScope(Dispatchers.IO)
     private val auth by lazy { FirebaseAuth.getInstance() }
-    private val sharedPrefs by lazy { 
-        getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE) 
-    }
-    private val serviceScope = CoroutineScope(Dispatchers.IO)
+    private val fs by lazy { FirebaseFirestore.getInstance() }
 
     /**
-     * Se llama cuando se genera un nuevo token FCM
-     * 
-     * Escenarios cuando se llama:
-     * 1. Primera instalación de la app
-     * 2. Restauración de la app en un nuevo dispositivo
-     * 3. Desinstalación/reinstalación de la app
-     * 4. Limpieza de datos de la app
-     * 5. Rotación de tokens por seguridad de FCM
+     * Se dispara cuando FCM rota o emite un token nuevo para este dispositivo.
      */
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        Log.d(TAG, "Nuevo token FCM generado")
-        
-        // Procesar el token de forma asíncrona para no bloquear el hilo principal
-        serviceScope.launch {
-            try {
-                handleNewToken(token)
-            } catch (e: Exception) {
-                Log.e(TAG, "Error procesando nuevo token FCM", e)
-            }
+        Log.d(TAG, "Nuevo token FCM: $token")
+
+        scope.launch {
+            saveTokenSafely(token)
         }
     }
 
     /**
-     * Se llama cuando se recibe un mensaje FCM
-     * 
-     * IMPORTANTE: Solo se ejecuta para mensajes de tipo 'data'
-     * Los mensajes con 'notification' son manejados automáticamente por el sistema
-     * cuando la app está en background/cerrada
+     * Recibe mensajes de tipo "data". Los "notification" puros los maneja el sistema.
      */
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        
-        Log.d(TAG, "Mensaje FCM recibido de: ${remoteMessage.from}")
-        
-        // Procesar el mensaje de forma asíncrona
-        serviceScope.launch {
+        Log.d(TAG, "FCM de: ${remoteMessage.from}")
+
+        // Evitar cualquier crash: procesar en hilo IO y con try-catch.
+        scope.launch {
             try {
-                processIncomingMessage(remoteMessage)
+                handleDataMessage(remoteMessage.data)
             } catch (e: Exception) {
-                Log.e(TAG, "Error procesando mensaje FCM", e)
+                Log.e(TAG, "Error manejando mensaje FCM", e)
             }
         }
     }
 
     /**
-     * Se llama cuando se eliminan mensajes en el servidor
-     * Ocurre cuando hay más de 100 mensajes pendientes o el dispositivo
-     * no se ha conectado a FCM en más de un mes
+     * Guarda el token en Firestore bajo /users/{uid}, con merge.
      */
-    override fun onDeletedMessages() {
-        super.onDeletedMessages()
-        Log.w(TAG, "Mensajes FCM eliminados en el servidor")
-        
-        // Notificar al usuario que puede haber perdido mensajes
-        serviceScope.launch {
-            showSystemNotification(
-                title = "Mensajes perdidos",
-                body = "Es posible que hayas perdido algunos mensajes. Abre la app para sincronizar.",
-                channelId = CHANNEL_ID_GENERAL
-            )
-        }
+    private suspend fun saveTokenSafely(token: String) {
+        val user = runCatching { auth.currentUser }.getOrNull() ?: return
+        val doc = fs.collection("users").document(user.uid)
+
+        val payload = mapOf(
+            "fcmToken" to token,
+            "fcmLastUpdated" to FieldValue.serverTimestamp(),
+            "platform" to "android"
+        )
+
+        runCatching { doc.set(payload, com.google.firebase.firestore.SetOptions.merge()).await() }
+            .onSuccess { Log.d(TAG, "Token FCM reflejado en Firestore") }
+            .onFailure { Log.e(TAG, "No se pudo guardar token en Firestore", it) }
     }
 
     /**
-     * Maneja un nuevo token FCM con persistencia local y sincronización con servidor
+     * Construye y muestra la notificación según los datos recibidos.
+     * Estructura esperada (data message):
+     *  - type: "chat_message" | "system" (default: chat_message)
+     *  - title, body
+     *  - chatId, senderId, senderName (para chat_message)
      */
-    private suspend fun handleNewToken(token: String) {
-        Log.d(TAG, "Procesando nuevo token FCM")
-        
-        // Verificar si el token ha cambiado
-        val previousToken = sharedPrefs.getString(KEY_FCM_TOKEN, null)
-        if (token == previousToken) {
-            Log.d(TAG, "Token FCM no ha cambiado, actualizando timestamp")
-            updateTokenTimestamp()
+    private fun handleDataMessage(data: Map<String, String>) {
+        if (data.isEmpty()) {
+            Log.w(TAG, "Mensaje FCM sin data, se ignora")
             return
         }
-        
-        // Guardar token localmente con información del dispositivo
-        saveTokenLocally(token)
-        
-        // Sincronizar con el servidor
-        syncTokenWithServer(token)
-    }
 
-    /**
-     * Procesa un mensaje FCM entrante
-     */
-    private suspend fun processIncomingMessage(remoteMessage: RemoteMessage) {
-        val messageData = remoteMessage.data
-        
-        if (messageData.isEmpty()) {
-            Log.w(TAG, "Mensaje FCM sin datos recibido")
-            return
-        }
-        
-        Log.d(TAG, "Procesando mensaje con datos: ${messageData.keys}")
-        
-        // Extraer información del mensaje
-        val messageType = messageData["type"] ?: "chat_message"
-        val title = messageData["title"] ?: "Nuevo mensaje"
-        val body = messageData["body"] ?: "Tienes un nuevo mensaje"
-        val chatId = messageData["chatId"] ?: ""
-        val senderId = messageData["senderId"] ?: ""
-        val senderName = messageData["senderName"] ?: "Usuario"
-        val messageText = messageData["messageText"] ?: body
-        val timestamp = messageData["timestamp"]?.toLongOrNull() ?: System.currentTimeMillis()
-        
-        // Determinar el estado de la app
-        val isAppInForeground = isAppInForeground()
-        
-        Log.d(TAG, "App en primer plano: $isAppInForeground")
-        Log.d(TAG, "Tipo de mensaje: $messageType")
-        
-        // Procesar según el tipo de mensaje
-        when (messageType) {
+        val type = data["type"] ?: "chat_message"
+        val title = data["title"] ?: "Nuevo mensaje"
+        val body = data["body"] ?: "Tienes un mensaje"
+        ensureChannels()
+
+        when (type) {
             "chat_message" -> {
-                handleChatMessage(
-                    title = title,
-                    body = messageText,
+                val chatId = data["chatId"].orEmpty()
+                val senderId = data["senderId"].orEmpty()
+                val senderName = data["senderName"] ?: "Usuario"
+                showChatNotification(
+                    title = senderName,
+                    body = body,
                     chatId = chatId,
-                    senderId = senderId,
-                    senderName = senderName,
-                    timestamp = timestamp,
-                    isAppInForeground = isAppInForeground
+                    senderId = senderId
                 )
             }
-            "system_notification" -> {
-                handleSystemNotification(title, body, isAppInForeground)
+            "system" -> {
+                showGeneralNotification(
+                    title = title,
+                    body = body
+                )
             }
             else -> {
-                Log.w(TAG, "Tipo de mensaje desconocido: $messageType")
-                handleGenericMessage(title, body, isAppInForeground)
+                // Por compatibilidad, si no reconocemos el tipo, tratamos como general.
+                showGeneralNotification(
+                    title = title,
+                    body = body
+                )
             }
         }
     }
 
     /**
-     * Maneja mensajes de chat
+     * Notificación para mensajes de chat; al tocarla abre MainActivity con extras del chat.
      */
-    private suspend fun handleChatMessage(
-        title: String,
-        body: String,
-        chatId: String,
-        senderId: String,
-        senderName: String,
-        timestamp: Long,
-        isAppInForeground: Boolean
-    ) {
-        // Si la app está en primer plano, podríamos enviar un broadcast
-        // en lugar de mostrar notificación (dependiendo de la UI)
-        if (isAppInForeground) {
-            Log.d(TAG, "App en primer plano, considerando broadcast en lugar de notificación")
-            // TODO: Implementar broadcast para actualizar UI en tiempo real
-        }
-        
-        // Crear notificación de mensaje de chat
-        createChatNotification(
-            title = senderName,
-            body = body,
-            chatId = chatId,
-            senderId = senderId,
-            timestamp = timestamp,
-            isHighPriority = !isAppInForeground
-        )
-    }
-
-    /**
-     * Maneja notificaciones del sistema
-     */
-    private suspend fun handleSystemNotification(
-        title: String,
-        body: String,
-        isAppInForeground: Boolean
-    ) {
-        showSystemNotification(
-            title = title,
-            body = body,
-            channelId = CHANNEL_ID_GENERAL,
-            isHighPriority = !isAppInForeground
-        )
-    }
-
-    /**
-     * Maneja mensajes genéricos
-     */
-    private suspend fun handleGenericMessage(
-        title: String,
-        body: String,
-        isAppInForeground: Boolean
-    ) {
-        showSystemNotification(
-            title = title,
-            body = body,
-            channelId = CHANNEL_ID_GENERAL,
-            isHighPriority = !isAppInForeground
-        )
-    }
-
-    /**
-     * Crea una notificación específica para mensajes de chat
-     */
-    private suspend fun createChatNotification(
-        title: String,
-        body: String,
-        chatId: String,
-        senderId: String,
-        timestamp: Long,
-        isHighPriority: Boolean
-    ) {
-        createNotificationChannels()
-        
-        // Intent para abrir el chat específico
+    private fun showChatNotification(title: String, body: String, chatId: String, senderId: String) {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("chatId", chatId)
             putExtra("senderId", senderId)
             putExtra("openFromNotification", true)
-            putExtra("notificationTimestamp", timestamp)
         }
-        
-        val pendingIntent = PendingIntent.getActivity(
+
+        val pending = PendingIntent.getActivity(
             this,
-            chatId.hashCode(), // Usar chatId como requestCode único
+            chatId.hashCode(),
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        
-        // Configurar prioridad según el estado de la app
-        val priority = if (isHighPriority) {
-            NotificationCompat.PRIORITY_HIGH
-        } else {
-            NotificationCompat.PRIORITY_DEFAULT
-        }
-        
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID_MESSAGES)
-            .setSmallIcon(R.drawable.talknow)
+
+        val notif = NotificationCompat.Builder(this, CH_MESSAGES_ID)
+            .setSmallIcon(R.drawable.talknow) // usa tu ícono válido
             .setContentTitle(title)
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
-            .setPriority(priority)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-            .setWhen(timestamp)
-            .setShowWhen(true)
-            .setGroup("chat_messages") // Agrupar notificaciones de chat
-            .apply {
-                if (isHighPriority) {
-                    setDefaults(NotificationCompat.DEFAULT_ALL)
-                    setVibrate(longArrayOf(0, 300, 200, 300))
-                }
-            }
+            .setContentIntent(pending)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
             .build()
-        
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(chatId.hashCode(), notification)
-        
-        Log.d(TAG, "Notificación de chat creada: $title - $body")
+
+        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        nm.notify(chatId.hashCode(), notif)
     }
 
     /**
-     * Muestra una notificación del sistema
+     * Notificación genérica (avisos del sistema u otros).
      */
-    private suspend fun showSystemNotification(
-        title: String,
-        body: String,
-        channelId: String,
-        isHighPriority: Boolean = false
-    ) {
-        createNotificationChannels()
-        
+    private fun showGeneralNotification(title: String, body: String) {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
-        
-        val pendingIntent = PendingIntent.getActivity(
+
+        val pending = PendingIntent.getActivity(
             this,
-            0,
+            /*id*/ System.currentTimeMillis().toInt(),
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        
-        val priority = if (isHighPriority) {
-            NotificationCompat.PRIORITY_HIGH
-        } else {
-            NotificationCompat.PRIORITY_DEFAULT
-        }
-        
-        val notification = NotificationCompat.Builder(this, channelId)
+
+        val notif = NotificationCompat.Builder(this, CH_GENERAL_ID)
             .setSmallIcon(R.drawable.talknow)
             .setContentTitle(title)
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
-            .setPriority(priority)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setCategory(NotificationCompat.CATEGORY_SOCIAL)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-            .setWhen(System.currentTimeMillis())
-            .setShowWhen(true)
-            .apply {
-                if (isHighPriority) {
-                    setDefaults(NotificationCompat.DEFAULT_ALL)
-                }
-            }
+            .setContentIntent(pending)
             .build()
-        
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
-        
-        Log.d(TAG, "Notificación del sistema creada: $title")
+
+        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        nm.notify(System.currentTimeMillis().toInt(), notif)
     }
 
     /**
-     * Crea los canales de notificación necesarios para Android 8.0+
+     * Crea los canales si hacen falta (idempotente).
      */
-    private fun createNotificationChannels() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            
-            // Canal para mensajes de chat
-            val messagesChannel = NotificationChannel(
-                CHANNEL_ID_MESSAGES,
-                CHANNEL_NAME_MESSAGES,
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = "Notificaciones de nuevos mensajes de chat"
-                enableLights(true)
-                enableVibration(true)
-                setShowBadge(true)
-                lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
-            }
-            
-            // Canal para notificaciones generales
-            val generalChannel = NotificationChannel(
-                CHANNEL_ID_GENERAL,
-                CHANNEL_NAME_GENERAL,
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = "Notificaciones generales de la aplicación"
-                enableLights(true)
-                enableVibration(true)
-                setShowBadge(true)
-            }
-            
-            notificationManager.createNotificationChannel(messagesChannel)
-            notificationManager.createNotificationChannel(generalChannel)
-            
-            Log.d(TAG, "Canales de notificación creados")
+    private fun ensureChannels() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val chMessages = NotificationChannel(
+            CH_MESSAGES_ID,
+            CH_MESSAGES_NAME,
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = "Notificaciones de nuevos mensajes"
+            enableVibration(true)
+            setShowBadge(true)
         }
-    }
 
-    /**
-     * Detecta si la aplicación está en primer plano
-     */
-    private fun isAppInForeground(): Boolean {
-        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
-        val runningAppProcesses = activityManager.runningAppProcesses ?: return false
-        
-        return runningAppProcesses.any { processInfo ->
-            processInfo.processName == packageName &&
-            processInfo.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+        val chGeneral = NotificationChannel(
+            CH_GENERAL_ID,
+            CH_GENERAL_NAME,
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
+            description = "Notificaciones generales"
+            enableVibration(true)
+            setShowBadge(true)
         }
-    }
 
-    /**
-     * Guarda el token FCM localmente con información del dispositivo
-     */
-    private fun saveTokenLocally(token: String) {
-        val timestamp = System.currentTimeMillis()
-        val deviceInfo = "${Build.MANUFACTURER} ${Build.MODEL} (Android ${Build.VERSION.RELEASE})"
-        
-        sharedPrefs.edit()
-            .putString(KEY_FCM_TOKEN, token)
-            .putLong(KEY_TOKEN_TIMESTAMP, timestamp)
-            .putString(KEY_DEVICE_INFO, deviceInfo)
-            .apply()
-        
-        Log.d(TAG, "Token FCM guardado localmente con timestamp: $timestamp")
-    }
-
-    /**
-     * Actualiza solo el timestamp del token actual
-     */
-    private fun updateTokenTimestamp() {
-        sharedPrefs.edit()
-            .putLong(KEY_TOKEN_TIMESTAMP, System.currentTimeMillis())
-            .apply()
-        
-        Log.d(TAG, "Timestamp del token FCM actualizado")
-    }
-
-    /**
-     * Sincroniza el token con el servidor (Firestore)
-     */
-    private suspend fun syncTokenWithServer(token: String) {
-        val currentUser = auth.currentUser
-        if (currentUser == null) {
-            Log.w(TAG, "No hay usuario autenticado, token guardado solo localmente")
-            return
-        }
-        
-        val userId = currentUser.uid
-        val timestamp = System.currentTimeMillis()
-        val deviceInfo = sharedPrefs.getString(KEY_DEVICE_INFO, "Unknown Device") ?: "Unknown Device"
-        
-        val tokenData = mapOf(
-            "fcmToken" to token,
-            "lastUpdated" to FieldValue.serverTimestamp(),
-            "localTimestamp" to timestamp,
-            "deviceInfo" to deviceInfo,
-            "appVersion" to getAppVersion(),
-            "platform" to "android"
-        )
-        
-        try {
-            // Intentar actualizar el documento del usuario
-            firestore.collection("users")
-                .document(userId)
-                .update(tokenData)
-                .await()
-            
-            Log.d(TAG, "Token FCM sincronizado con Firestore para usuario: $userId")
-            
-        } catch (e: Exception) {
-            Log.w(TAG, "Error actualizando token, intentando crear documento", e)
-            
-            try {
-                // Si falla la actualización, intentar crear/merge el documento
-                firestore.collection("users")
-                    .document(userId)
-                    .set(tokenData, com.google.firebase.firestore.SetOptions.merge())
-                    .await()
-                
-                Log.d(TAG, "Token FCM creado en nuevo documento para usuario: $userId")
-                
-            } catch (createException: Exception) {
-                Log.e(TAG, "Error crítico guardando token FCM", createException)
-                
-                // Programar reintento usando WorkManager para mayor confiabilidad
-                scheduleTokenSyncRetry(userId, token)
-            }
-        }
-    }
-
-    /**
-     * Programa un reintento de sincronización del token usando WorkManager
-     */
-    private fun scheduleTokenSyncRetry(userId: String, token: String) {
-        Log.d(TAG, "Reintento de sincronización de token programado con WorkManager")
-    }
-
-    /**
-     * Obtiene la versión de la aplicación
-     */
-    private fun getAppVersion(): String {
-        return try {
-            val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            packageInfo.versionName ?: "unknown"
-        } catch (e: Exception) {
-            "unknown"
-        }
-    }
-
-    /**
-     * Verifica si el token local ha expirado
-     */
-    fun isTokenExpired(): Boolean {
-        val tokenTimestamp = sharedPrefs.getLong(KEY_TOKEN_TIMESTAMP, 0)
-        val currentTime = System.currentTimeMillis()
-        return (currentTime - tokenTimestamp) > TOKEN_EXPIRATION_TIME
-    }
-
-    /**
-     * Obtiene el token FCM actual guardado localmente
-     */
-    fun getCurrentToken(): String? {
-        return sharedPrefs.getString(KEY_FCM_TOKEN, null)
+        nm.createNotificationChannel(chMessages)
+        nm.createNotificationChannel(chGeneral)
     }
 }
