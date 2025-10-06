@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Pantalla de chat:
+- Toolbar superior con info del usuario y botón de back.
+- Lista de mensajes (RecyclerView) que ocupa todo el espacio disponible.
+- Barra de entrada con botón de imagen, campo de texto y botón de enviar.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <!--
+    Toolbar de la conversación:
+    - Usa MaterialToolbar para integrarse con Material Components.
+    - navigationIcon: flecha de retroceso.
+    - Incluye (via <include>) un layout con la foto/nombre/estado del usuario.
+    -->
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarChat"
@@ -15,6 +29,11 @@
         app:navigationIcon="@drawable/ic_arrow_back_24"
         app:navigationIconTint="@color/black">
 
+        <!--
+        Bloque embebido con la información del usuario:
+        - Se recomienda que 'toolbar_chat_user_info' tenga un layout compacto (avatar + nombre + estado).
+        - android:layout_gravity posiciona el bloque dentro del Toolbar.
+        -->
         <include
             android:id="@+id/userInfoLayout"
             layout="@layout/toolbar_chat_user_info"
@@ -25,6 +44,14 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
+     <!--
+    Lista de mensajes:
+    - match_parent a lo ancho y weight=1 para ocupar todo el alto disponible entre Toolbar y barra de entrada.
+    - overScrollMode="never" evita el efecto de rebote.
+    - padding para separación visual interna de los items.
+    - TIP: en el adapter usa setHasStableIds(true) si tienes IDs únicos para mejor rendimiento.
+    -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMessages"
         android:layout_width="match_parent"
@@ -33,12 +60,19 @@
         android:layout_weight="1"
         android:padding="12dp" />
 
+    <!--
+    Barra de entrada de mensajes:
+    - Horizontal con: botón para adjuntar imagen, caja de texto, botón enviar.
+    - padding externo para separar de los bordes.
+    -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:orientation="horizontal">
 
+        <!-- Botón para elegir/enviar imágenes -->
         <ImageButton
             android:id="@+id/btnImage"
             android:layout_width="48dp"
@@ -48,6 +82,20 @@
             android:tint="@color/turquoise_blue"
             android:contentDescription="@string/app_name"
             android:layout_marginEnd="8dp" />
+
+        <!--
+        Campo de texto del mensaje:
+        - weight=1 para ocupar el espacio libre entre los botones.
+        - background con el mismo estilo que el botón de imagen para coherencia visual.
+        - inputType permite mayúscula inicial y múltiples líneas.
+        - maxLines limita crecimiento vertical (evita cubrir la pantalla).
+        -->
+
+        <!--
+        Botón de enviar:
+        - Fondo primario sólido, ícono blanco.
+        - contentDescription heredado de @string/app_name (puedes crear uno específico como @string/enviar).
+        -->
 
         <EditText
             android:id="@+id/etMessage"

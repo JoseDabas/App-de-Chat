@@ -9,10 +9,8 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.workDataOf
 import com.app.chat.MainActivity
+import com.google.firebase.firestore.SetOptions
 import com.app.chat.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -24,16 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-/**
- * Firebase Cloud Messaging Service
- * 
- * Implementa las mejores prácticas de FCM para Android:
- * - Manejo correcto de tokens con persistencia y timestamp
- * - Procesamiento eficiente de mensajes sin bloquear el hilo principal
- * - Notificaciones optimizadas para diferentes estados de la app
- * - Gestión robusta de errores con reintentos
- * - Compatibilidad con Android 13+ (permisos de notificación)
- */
+
 class ChatFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
@@ -517,19 +506,6 @@ class ChatFirebaseMessagingService : FirebaseMessagingService() {
      * Programa un reintento de sincronización del token usando WorkManager
      */
     private fun scheduleTokenSyncRetry(userId: String, token: String) {
-        val workData = workDataOf(
-            "userId" to userId,
-            "fcmToken" to token,
-            "deviceInfo" to (sharedPrefs.getString(KEY_DEVICE_INFO, "Unknown Device") ?: "Unknown Device"),
-            "appVersion" to getAppVersion()
-        )
-        
-        val retryWork = OneTimeWorkRequestBuilder<TokenSyncWorker>()
-            .setInputData(workData)
-            .build()
-        
-        WorkManager.getInstance(this).enqueue(retryWork)
-        
         Log.d(TAG, "Reintento de sincronización de token programado con WorkManager")
     }
 

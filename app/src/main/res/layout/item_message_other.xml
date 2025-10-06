@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Item de chat para MENSAJES RECIBIDOS (de otro usuario).
+Incluye un contenedor vertical con:
+- Burbuja de texto (mensaje).
+- Imagen opcional (si el mensaje incluye una foto).
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingVertical="4dp">
 
+    <!--
+    Burbuja de texto del otro usuario:
+    - wrap_content para ajustarse al texto.
+    - gravity=start para alinear a la izquierda.
+    - background usa un drawable con estilo de burbuja (bg_bubble_other).
+    - padding interno para que el texto no quede pegado al borde.
+    -->
     <TextView
         android:id="@+id/tvMsgOther"
         android:layout_width="wrap_content"
@@ -14,6 +27,15 @@
         android:padding="10dp"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
+
+     <!--
+    Imagen enviada por el otro usuario:
+    - Tamaño fijo de ancho (220dp) para mantener consistencia.
+    - adjustViewBounds="true" ajusta el alto proporcionalmente según la imagen.
+    - gravity=start para alinearla a la izquierda (como el texto).
+    - visibility="gone" por defecto: solo se muestra si el mensaje tiene imagen.
+    - marginTop separa la imagen del texto si ambos existen.
+    -->
 
     <ImageView
         android:id="@+id/ivImageOther"
