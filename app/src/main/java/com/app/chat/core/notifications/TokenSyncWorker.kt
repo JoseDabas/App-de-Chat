@@ -3,9 +3,12 @@ package com.app.chat.core.notifications
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
+import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
+import androidx.work.Data
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 
 /**
@@ -59,7 +62,7 @@ class TokenSyncWorker(
                 // Si falla la actualización, intentar crear/merge el documento
                 firestore.collection("users")
                     .document(userId)
-                    .set(tokenData, com.google.firebase.firestore.SetOptions.merge())
+                    .set(tokenData, SetOptions.merge())
                     .await()
 
                 Log.d(TAG, "Token FCM creado exitosamente en nuevo documento")
