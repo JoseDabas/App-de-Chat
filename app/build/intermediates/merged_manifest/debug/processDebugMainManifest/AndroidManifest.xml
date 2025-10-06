@@ -16,6 +16,11 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Permisos para notificaciones en background -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!-- Required by older versions of Google Play services to create IID tokens -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
@@ -37,7 +42,6 @@
         android:extractNativeLibs="false"
         android:icon="@drawable/talknow"
         android:label="@string/app_name"
-        android:testOnly="true"
         android:theme="@style/Theme.AppChat" >
         <activity
             android:name="com.app.chat.MainActivity"
@@ -56,11 +60,25 @@
         <!-- Servicio FCM para manejar notificaciones push -->
         <service
             android:name="com.app.chat.core.notifications.ChatFirebaseMessagingService"
+            android:directBootAware="true"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <!-- Receiver para reinicio del dispositivo -->
+        <receiver
+            android:name="com.app.chat.core.notifications.BootReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
 
         <!-- Canal de notificaciones por defecto -->
         <meta-data
