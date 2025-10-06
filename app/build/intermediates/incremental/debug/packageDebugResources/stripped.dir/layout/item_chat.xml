@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Item de chat para mostrar información básica de un chat:
+- Título (nombre del usuario o grupo).
+- Subtítulo (último mensaje o estado).
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!--
+    Título del chat:
+    - Negrita para resaltar.
+    - Tamaño de fuente 16sp.
+    - Texto predeterminado: "Sin nombre" si no se proporciona.
+    -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -13,6 +24,12 @@
         android:textSize="16sp"
         android:text="Sin nombre" />
 
+    <!--
+    Subtítulo del chat:
+    - Tamaño de fuente 14sp.
+    - Texto predeterminado: "..." si no se proporciona.
+    - marginTop separa visualmente del título.
+    -->
     <TextView
         android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"

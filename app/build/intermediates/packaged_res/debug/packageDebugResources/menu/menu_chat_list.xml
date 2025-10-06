@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Menú de opciones para la lista de chats:
+- Nuevo chat: ícono de agregar para crear un nuevo chat.
+- Cerrar sesión: ícono de cerrar sesión para cerrar la cuenta.
+-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--
+    Opción para crear un nuevo chat:
+    - Ícono de agregar.
+    - Mostrar en la barra de acciones si hay espacio.
+    -->
     <item
         android:id="@+id/action_new_chat"
         android:title="Nuevo chat"
         android:icon="@android:drawable/ic_input_add"
         app:showAsAction="ifRoom" />
 
+    <!--
+    Opción para cerrar sesión:
+    - Ícono de cerrar sesión.
+    - No mostrar en la barra de acciones.
+    -->
     <item
         android:id="@+id/action_logout"
         android:title="Cerrar sesión"

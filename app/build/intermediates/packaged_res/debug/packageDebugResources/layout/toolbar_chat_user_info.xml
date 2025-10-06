@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Layout para mostrar la información de un usuario (por ejemplo en la toolbar del chat).
+Incluye: ícono de usuario + nombre + estado.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -6,6 +10,8 @@
     android:gravity="center_vertical"
     android:paddingStart="8dp"
     android:paddingEnd="8dp">
+
+    <!-- Ícono de usuario (avatar por defecto o imagen del perfil) -->
 
     <ImageView
         android:id="@+id/ivUserIcon"
@@ -15,10 +21,14 @@
         android:contentDescription="Icono del usuario"
         android:layout_marginEnd="12dp" />
 
+    <!-- Contenedor vertical para nombre y estado -->
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <!-- Nombre del usuario -->
 
         <TextView
             android:id="@+id/tvUserName"
@@ -30,6 +40,8 @@
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end" />
+
+        <!-- Estado del usuario (ej: Online, Escribiendo...) -->
 
         <TextView
             android:id="@+id/tvUserStatus"

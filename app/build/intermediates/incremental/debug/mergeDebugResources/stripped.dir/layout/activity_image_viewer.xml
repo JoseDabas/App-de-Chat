@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Contenedor principal del layout, usa un FrameLayout que permite superponer vistas -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
+    <!-- ImageView que muestra la imagen en pantalla completa -->
     <ImageView
         android:id="@+id/ivFull"
         android:layout_width="match_parent"
@@ -12,6 +14,7 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter" />
 
+    <!-- Botón de cerrar (en la esquina superior derecha) -->
     <ImageButton
         android:id="@+id/btnClose"
         android:layout_width="40dp"

@@ -10,18 +10,30 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel para la pantalla de lista de chats.
+ * - Expone un flujo de chats del usuario autenticado.
+ * - Puede sembrar un chat de prueba (idempotente).
+ * - Incluye una utilidad para limpiar duplicados de chats de prueba.
+ */
 class ChatListViewModel : ViewModel() {
 
+    // Acceso a Firestore y usuario autenticado actual.
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+    // Estado observable con la lista de chats que la UI consume (RecyclerView).
     private val _chats = MutableStateFlow<List<Chat>>(emptyList())
     val chats: StateFlow<List<Chat>> = _chats
 
+    // Guardas para evitar ejecutar tareas más de una vez por ciclo de vida del VM.
     private var seeded = false
     private var listening = false
 
-    /** Crea un chat de prueba si no existe (idempotente). */
+    /**
+     * Inserta un chat de prueba para el usuario si aún no existe.
+     * Útil durante desarrollo/demos. No se vuelve a ejecutar si ya corrió.
+     */
     fun seedOnce() {
         if (seeded) return
         val uid = auth.currentUser?.uid ?: return
@@ -30,7 +42,7 @@ class ChatListViewModel : ViewModel() {
         val docId = "seed_$uid"
         val docRef = db.collection("chats").document(docId)
 
-        // Verifica si ya existe
+        // Solo crea si no existe ya un documento con ese id.
         docRef.get().addOnSuccessListener { snap ->
             if (snap.exists()) return@addOnSuccessListener
 
@@ -45,17 +57,19 @@ class ChatListViewModel : ViewModel() {
 
             docRef.set(seedData)
         }.addOnFailureListener {
-            // Silencioso: si falla, la lista simplemente quedará vacía
+            // Si falla no se propaga error: la UI simplemente seguirá sin ese chat de prueba.
         }
     }
 
-    /** Empieza a escuchar los chats del usuario. */
+    /**
+     * Comienza a escuchar en tiempo real los chats donde participa el usuario actual.
+     * Actualiza el StateFlow cada vez que hay cambios en la colección.
+     */
     fun load() {
         if (listening) return
         val uid = auth.currentUser?.uid ?: return
         listening = true
 
-        // Si tienes múltiples campos, podrías querer ordenar por updatedAt.
         db.collection("chats")
             .whereArrayContains("participants", uid)
             .addSnapshotListener { qs, _ ->
@@ -63,6 +77,8 @@ class ChatListViewModel : ViewModel() {
                     _chats.value = emptyList()
                     return@addSnapshotListener
                 }
+
+                // Mapea cada documento a modelo Chat y ordena la lista.
                 val list = qs.documents.mapNotNull { d ->
                     Chat(
                         id = d.getString("id") ?: d.id,
@@ -70,12 +86,16 @@ class ChatListViewModel : ViewModel() {
                         lastMessage = d.getString("lastMessage") ?: "",
                         participants = d.get("participants") as? List<String> ?: emptyList()
                     )
-                }.sortedByDescending { it.title } // orden simple; cambia si usas updatedAt
+                }.sortedByDescending { it.title } // Cambiar a updatedAt si se quiere orden por actividad
+
                 _chats.value = list
             }
     }
 
-    /** Útil si quieres limpiar duplicados manualmente una sola vez. */
+    /**
+     * Herramienta para limpieza: elimina duplicados del chat de prueba,
+     * conservando el documento cuyo id es "seed_<uid>". Ejecutar una sola vez si se necesita.
+     */
     fun cleanupDuplicatesOnce() {
         val uid = auth.currentUser?.uid ?: return
         val keepId = "seed_$uid"
@@ -85,10 +105,13 @@ class ChatListViewModel : ViewModel() {
                 .whereArrayContains("participants", uid)
                 .get()
                 .addOnSuccessListener { snap ->
+                    // Marca para borrar cualquier "seed_*" o "Chat de prueba" que no sea el principal.
                     val toDelete = snap.documents.filter {
-                        it.id != keepId && (it.getString("title") == "Chat de prueba" || it.id.startsWith("seed_"))
+                        it.id != keepId &&
+                                (it.getString("title") == "Chat de prueba" || it.id.startsWith("seed_"))
                     }
                     if (toDelete.isEmpty()) return@addOnSuccessListener
+
                     val batch = db.batch()
                     toDelete.forEach { batch.delete(it.reference) }
                     batch.commit()

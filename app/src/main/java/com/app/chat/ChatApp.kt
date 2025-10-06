@@ -12,21 +12,21 @@ import com.google.firebase.database.FirebaseDatabase
 
 class ChatApp : Application() {
 
+    // Referencia perezosa al estado de autenticación de Firebase.
     private val auth by lazy { FirebaseAuth.getInstance() }
 
     override fun onCreate() {
         super.onCreate()
 
-        // Inicializar Firebase Database de forma más robusta
+        // ——— Inicialización de Realtime Database con persistencia offline ———
+        // Se intenta primero con la instancia por defecto y, si falla,
+        // se usa un fallback con la URL explícita del proyecto.
         try {
-            // Primero intentar con la instancia por defecto
             val database = FirebaseDatabase.getInstance()
-            // Configurar persistencia offline
             database.setPersistenceEnabled(true)
             Log.d("ChatApp", "Firebase Database inicializado correctamente")
         } catch (e: Exception) {
             Log.e("ChatApp", "Error al inicializar Firebase Database", e)
-            // Intentar con URL específica como fallback
             try {
                 FirebaseDatabase.getInstance("https://chat-basico-6147f-default-rtdb.firebaseio.com")
                 Log.d("ChatApp", "Firebase Database inicializado con URL específica")
@@ -35,32 +35,35 @@ class ChatApp : Application() {
             }
         }
 
-        // Inicializar componentes de forma segura
+        // ——— Inicialización de componentes globales de la app ———
+        // PresenceManager observa el ciclo de vida del proceso y marca online/offline.
         try {
-            // Inicializa PresenceManager (observa ciclo de vida de la app)
             PresenceManager.init(this)
             Log.d("ChatApp", "PresenceManager inicializado")
         } catch (e: Exception) {
             Log.e("ChatApp", "Error al inicializar PresenceManager", e)
         }
-        
+
+        // NotificationManager gestiona FCM (token y notificaciones locales).
         try {
-            // Inicializa el sistema de notificaciones push
             NotificationManager.initialize(this)
             Log.d("ChatApp", "NotificationManager inicializado")
         } catch (e: Exception) {
             Log.e("ChatApp", "Error al inicializar NotificationManager", e)
         }
 
-        // Cambios de login/logout: ponemos online al iniciar sesión y limpiamos al salir
+        // ——— Reacción a cambios de sesión (login/logout) ———
+        // Cuando hay usuario autenticado:
+        //   • Se marca presencia en línea (si procede).
+        //   • Se asegura que el token FCM esté actualizado.
+        // Cuando no hay usuario (logout):
+        //   • Se limpia la presencia y el token FCM.
         try {
             auth.addAuthStateListener { firebaseAuth ->
                 val user = firebaseAuth.currentUser
                 if (user != null) {
                     try {
-                        // si ya estamos en foreground, esto pondrá online de inmediato
                         PresenceManager.goOnline()
-                        // Actualizar token FCM para el usuario autenticado
                         NotificationManager.updateFCMTokenForUser()
                     } catch (e: Exception) {
                         Log.e("ChatApp", "Error en operaciones de usuario autenticado", e)
@@ -68,7 +71,6 @@ class ChatApp : Application() {
                 } else {
                     try {
                         PresenceManager.clear()
-                        // Limpiar token FCM al cerrar sesión
                         NotificationManager.clearFCMToken()
                     } catch (e: Exception) {
                         Log.e("ChatApp", "Error en operaciones de logout", e)
@@ -79,7 +81,8 @@ class ChatApp : Application() {
             Log.e("ChatApp", "Error al configurar AuthStateListener", e)
         }
 
-        // Extra: por si quieres logs de foreground/background (PresenceManager ya lo hace)
+        // ——— Logs auxiliares del ciclo de vida del proceso ———
+        // Útiles para depurar transiciones foreground/background.
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onStart(owner: LifecycleOwner) {
                 Log.d("ChatApp", "App al FOREGROUND")
